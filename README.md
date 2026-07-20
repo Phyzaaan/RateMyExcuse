@@ -323,3 +323,31 @@ The app should feel like chatting with entertaining characters rather than using
 * Achievement system
 * Custom AI personalities
 * Rare hidden judges
+
+---
+
+# Tech Stack
+
+## Frontend
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+
+## Backend
+- Next.js API Routes
+
+## Database
+- Supabase
+
+## Authentication
+- Supabase Auth
+
+## AI
+- Gemini API
+
+## Payments
+- TBD
+
+## Advertisements
+- TBD
