@@ -129,7 +129,7 @@ export default function Chat() {
 
   function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (messages.length <= 120) {
+    if (messages.length <= 5) {
       sendMessage();
     } else {
       getVerdict();
@@ -165,22 +165,6 @@ export default function Chat() {
             </h2>
             <p className="text-xs text-secondary font-semibold text-text-primary leading-tight flex items-center gap-1">
               {params.judge}
-              {loading && !isFetchingVerdict && (
-                <span className="inline-flex gap-0.5">
-                  <span
-                    className={`w-1 h-1 ${judge.color} rounded-full animate-bounce`}
-                    style={{ animationDelay: "0ms" }}
-                  />
-                  <span
-                    className={`w-1 h-1 ${judge.color} rounded-full animate-bounce`}
-                    style={{ animationDelay: "150ms" }}
-                  />
-                  <span
-                    className={`w-1 h-1 ${judge.color} rounded-full animate-bounce`}
-                    style={{ animationDelay: "300ms" }}
-                  />
-                </span>
-              )}
             </p>
           </div>
         </div>
