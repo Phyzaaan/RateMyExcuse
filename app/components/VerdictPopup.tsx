@@ -1,16 +1,40 @@
 import { RefreshCcw, Home, Users } from "lucide-react";
 import Message from "./Message";
 import Link from "next/link";
+import { Verdict } from "../data/type";
 
 interface VerdictPopupProps {
   onClose: () => void;
+  verdict: Verdict;
+  judgeImg: string;
+  judgeBg: string;
 }
 
-export default function VerdictPopup({ onClose }: VerdictPopupProps) {
+export default function VerdictPopup({
+  onClose,
+  verdict,
+  judgeImg,
+  judgeBg,
+}: VerdictPopupProps) {
   const criteria = [
-    { name: "Believability", score: 4, max: 10, color: "bg-orange-400" },
-    { name: "Creativity", score: 6, max: 10, color: "bg-yellow-400" },
-    { name: "Guilt-Trip Resistance", score: 2, max: 10, color: "bg-red-400" },
+    {
+      name: "Believability",
+      score: verdict.believability,
+      max: 10,
+      color: "bg-orange-400",
+    },
+    {
+      name: "Confidence",
+      score: verdict.confidence,
+      max: 10,
+      color: "bg-yellow-400",
+    },
+    {
+      name: "Creativity",
+      score: verdict.creativity,
+      max: 10,
+      color: "bg-red-400",
+    },
   ];
 
   return (
@@ -24,12 +48,12 @@ export default function VerdictPopup({ onClose }: VerdictPopupProps) {
           {/* Score Header */}
           <div className="flex items-center gap-3 mb-6">
             <div className="text-6xl font-black text-slate-800 flex items-baseline">
-              <span>4</span>
+              <span>{verdict.score}</span>
               <span className="text-4xl text-slate-300 mx-1">/</span>
-              <span className="text-4xl text-slate-400">10</span>
+              <span className="text-4xl text-slate-400">100</span>
             </div>
             <span className="text-5xl drop-shadow-md hover:rotate-2 transition-transform">
-              😐
+              {verdict.emoji}
             </span>
           </div>
         </div>
@@ -56,10 +80,9 @@ export default function VerdictPopup({ onClose }: VerdictPopupProps) {
 
         {/* Judge Quote using your Message component */}
         <div className="w-full mb-8">
-          <Message imgUrl="/Teacher.png" color="slate-100" align="left">
+          <Message imgUrl={judgeImg} bg={judgeBg} align="left">
             <span className="text-slate-600 text-[13px] font-bold">
-              &quot;Melodramatic guilt-bomb — cancels with maximum tear
-              quota.&quot;
+              &quot;{verdict.reaction}&quot;
             </span>
           </Message>
         </div>

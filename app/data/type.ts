@@ -5,9 +5,9 @@ export type Message = {
 
 export type Verdict = {
   score: number;
+  emoji: string;
   reaction: string;
   believability: number;
   creativity: number;
-  logic: number;
   confidence: number;
 };
