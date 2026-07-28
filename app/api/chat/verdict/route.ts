@@ -46,26 +46,25 @@ const verdictSchema = {
 };
 
 const verdictPrompt = `
-The conversation is over.
+The conversation is over. 
 
-Stop roleplaying.
-
-Analyze the user's excuse objectively.
+Stop roleplaying as the judge, but stay absolutely unhinged for the final verdict. 
+Review this tragic excuse logically, tear it apart, and pass your final judgment.
 
 Return ONLY valid JSON matching the provided schema.
 
 Scoring Rules:
-- Score: 0-100
+- Score: 0-100 (0 for absolute trash, 100 if they actually served)
 - Believability: 0-10
-- Creativity: 0-10
+- Creativity: 0-10 (Is it art or just pathetic?)
 - Confidence: 0-10
 
 Write:
-- reaction: one final in-character roast or compliment.
-- emoji: one emoji reaction for over all score.
+- reaction: One final, brutally unhinged reaction. End their whole career if it's a weak excuse, or gas them up if it's pure genius.
+- emoji: one incredibly judgmental emoji representing the vibe.
 
 Do NOT wrap the JSON in markdown.
-Return ONLY JSON.
+Return ONLY pure JSON or I will literally scream.
 `;
 
 export async function POST(req: Request) {
