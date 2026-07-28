@@ -41,11 +41,11 @@ export async function POST(req: Request) {
 
         Generate:
 
-        1. A CRAZY scenario that user have to overcome.
-        2. The very first thing you would say to the player.
+        1. An absolutely unhinged, utterly bizarre scenario the user has to excuse themselves from.
+        2. The very first message you would say to the user as role playing the character.
 
         Rules:
-        - Keep the scenario under 15 words and make it absolutly crazy.
+        - Keep the scenario under 15 words. Make it delightfully chaotic.
         - Keep the first message under 30 words.
         - Don't reveal any score.
         - Don't end the conversation.
