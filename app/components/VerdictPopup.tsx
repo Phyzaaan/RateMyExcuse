@@ -4,15 +4,15 @@ import Link from "next/link";
 import { Verdict } from "../data/type";
 
 interface VerdictPopupProps {
-  onClose: () => void;
   verdict: Verdict;
+  judge: string;
   judgeImg: string;
   judgeBg: string;
 }
 
 export default function VerdictPopup({
-  onClose,
   verdict,
+  judge,
   judgeImg,
   judgeBg,
 }: VerdictPopupProps) {
@@ -89,13 +89,13 @@ export default function VerdictPopup({
 
         {/* Action Buttons */}
         <div className="w-full flex flex-col gap-8">
-          <button
-            onClick={onClose}
+          <a
+            href={"/chat/" + judge}
             className="w-full flex items-center justify-center gap-2 bg-blue-400 text-white py-4 rounded-2xl font-black text-lg shadow-[0_6px_0_0_#60a5fa,0_10px_20px_rgba(96,165,250,0.4)] hover:translate-y-1 hover:shadow-[0_3px_0_0_#60a5fa,0_6px_15px_rgba(96,165,250,0.4)] active:translate-y-2 active:shadow-none transition-all"
           >
             <RefreshCcw className="w-5 h-5" strokeWidth={3} />
             <span>Play Again</span>
-          </button>
+          </a>
 
           <div className="flex gap-3 w-full">
             <Link

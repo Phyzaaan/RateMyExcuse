@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { ChevronLeft, Send, Target } from "lucide-react";
 import VerdictPopup from "@/app/components/VerdictPopup";
 import Message from "@/app/components/Message";
@@ -20,8 +19,6 @@ export default function Chat() {
   const [loading, setLoading] = useState(false);
   const [verdict, setVerdict] = useState<Verdict | null>(null);
   const [isFetchingVerdict, setIsFetchingVerdict] = useState(false);
-
-   const router = useRouter();
 
   const params = useParams<{ judge: string }>();
 
@@ -154,8 +151,8 @@ export default function Chat() {
             <Image
               src={judge.image}
               alt="Judge Avatar"
-              width={32}
-              height={32}
+              width={40}
+              height={40}
               className="object-contain"
             />
           </div>
@@ -331,7 +328,7 @@ export default function Chat() {
       {/* Verdict Popup overlay */}
       {verdict && (
         <VerdictPopup
-          onClose={() => router.refresh()}
+          judge={params.judge}
           verdict={verdict}
           judgeImg={judge.image}
           judgeBg={judge.bg}

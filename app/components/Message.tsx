@@ -24,8 +24,8 @@ export default function Message({
         <Image
           src={imgUrl}
           alt="Avatar"
-          width={24}
-          height={24}
+          width={36}
+          height={36}
           className="object-contain"
         />
       </div>
