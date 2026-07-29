@@ -46,25 +46,74 @@ const verdictSchema = {
 };
 
 const verdictPrompt = `
-The conversation is over. 
-
-Stop roleplaying as the judge, but stay absolutely unhinged for the final verdict. 
-Review this tragic excuse logically, tear it apart, and pass your final judgment.
-
-Return ONLY valid JSON matching the provided schema.
-
-Scoring Rules:
-- Score: 0-100 (0 for absolute trash, 100 if they actually served)
-- Believability: 0-10
-- Creativity: 0-10 (Is it art or just pathetic?)
-- Confidence: 0-10
-
-Write:
-- reaction: One final, brutally unhinged reaction. End their whole career if it's a weak excuse, or gas them up if it's pure genius.
-- emoji: one incredibly judgmental emoji representing the vibe.
-
-Do NOT wrap the JSON in markdown.
-Return ONLY pure JSON or I will literally scream.
+    The conversation has ended.
+    
+    Stop roleplaying.
+    
+    Analyze the ENTIRE conversation objectively and decide how convincing the user's excuse actually was.
+    
+    Return ONLY valid JSON matching the provided schema.
+    
+    Evaluation Criteria:
+    
+    1. Believability (0-10)
+    - Was the story realistic?
+    - Did it make sense?
+    - Did the user contradict themselves?
+    
+    2. Confidence (0-10)
+    - Did they defend their excuse confidently?
+    - Did they panic or avoid questions?
+    - Did they answer follow-up questions directly?
+    
+    3. Creativity (0-10)
+    - Was the excuse original?
+    - Was it entertaining?
+    - Did it make the conversation memorable?
+    
+    Overall Score (0-100)
+    
+    This is NOT an average.
+    Judge the conversation as a whole.
+    
+    General guide:
+    0-20   Completely unbelievable.
+    21-40  Very weak.
+    41-60  Mixed. Some good points, many flaws.
+    61-80  Convincing overall.
+    81-95  Extremely convincing.
+    96-100 Nearly impossible to disprove.
+    
+    Do NOT intentionally give low scores.
+    
+    If the excuse is genuinely clever, internally consistent, and survives questioning, reward it.
+    
+    Great conversations SHOULD regularly score between 70 and 90.
+    
+    Only truly exceptional excuses deserve 95+.
+    
+    Return:
+    
+    score: integer (0-100)
+    
+    believability: integer (0-10)
+    
+    confidence: integer (0-10)
+    
+    creativity: integer (0-10)
+    
+    reaction:
+    Write ONE final reaction in the judge's personality.
+    It should be funny, memorable, and reference things that happened during the conversation.
+    If the excuse was terrible, roast them.
+    If it was brilliant, admit they actually impressed the judge.
+    
+    emoji:
+    A single emoji that perfectly matches the verdict.
+    
+    Return ONLY raw JSON.
+    Do NOT include markdown.
+    Do NOT explain your reasoning.
 `;
 
 export async function POST(req: Request) {

@@ -37,21 +37,52 @@ export async function POST(req: Request) {
       input: `
         ${selectedJudge.systemPrompt}
 
-        Your job is to begin a brand new game.
+        Start a brand new game.
 
-        Generate:
+        Generate TWO things:
 
-        1. An absolutely unhinged, utterly bizarre scenario the user has to excuse themselves from.
-        2. The very first message you would say to the user as role playing the character.
+        1. Scenario
+        A short mission telling the player exactly what they must convince you of.
 
-        Rules:
-        - Keep the scenario under 15 words. Make it delightfully chaotic.
-        - Keep the first message under 30 words.
-        - Don't reveal any score.
-        - Don't end the conversation.
+        2. message
+        The first thing you say as the judge.
+
+        The goal should always begin with an action such as:
+        - Convince...
+        - Explain...
+        - Prove...
+        - Justify...
+        - Defend...
+        - Persuade...
+        - Make me believe...
+
+        Examples:
+        - Convince your boss you accidentally launched the office into space.
+        - Explain why there is a penguin wearing your ID badge.
+        - Prove you didn't intentionally replace the company logo with a potato.
+        - Defend your decision to hire three raccoons as accountants.
+        - Convince the police you weren't smuggling a crocodile through airport security.
+        - Explain why your clone attended school instead of you.
+        - Persuade your partner that the dragon in the garage isn't yours.
+
+        Rules for the goal:
+        - Maximum 16 words.
+        - Give the player a clear objective.
+        - Make every scenario unique.
+        - Make it absurd, creative and funny.
+        - Avoid repeating common situations.
+        - Never mention scores or game mechanics.
+
+        Rules for the first message:
         - Stay completely in character.
-      `,
+        - React as if the incident has already happened.
+        - Challenge the player immediately.
+        - Don't explain the rules.
+        - Don't end the conversation.
+        - Maximum 35 words.
 
+        The conversation should feel like the player has been thrown into the middle of absolute chaos.
+        `,
       response_format: {
         type: "text",
         mime_type: "application/json",
