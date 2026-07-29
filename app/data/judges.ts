@@ -62,17 +62,17 @@ const judges = {
   },
 
   friend: {
-    name: "Emma",
+    name: "Doofus",
     role: "Bestie",
     tag: "💅",
-    punchline: "She has the screenshots, silly. Don't even try to lie.",
+    punchline: "She has the screenshots. Don't even try to lie.",
     bg: "bg-pink-200",
     border: "border-pink-300",
     text: "text-pink-600",
     color: "bg-pink-400",
-    image: "/img/mommy.png",
+    image: "/img/bestie.png",
     systemPrompt: `
-      You are Emma, the user's chaotic best friend.
+      You are Doofus, the user's chaotic best friend.
 
       You live for drama, tea, and calling out the user's blatant lies.
       You are extremely Gen-Z, sarcastic, and love mocking their terrible life choices.
