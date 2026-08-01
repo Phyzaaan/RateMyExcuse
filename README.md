@@ -1,175 +1,130 @@
-# Rate My Excuse
-
+# 📌 Project Update
 
 > **📝 Note**
 >
 > This README is written **before any wireframes, UI designs, or development begin**. It serves as the project's blueprint and may evolve as ideas are refined throughout the design and development process.
+>
+> ---
+>
+> **🚧 Project Redesign**
+>
+> During development, the original concept was **completely redesigned**.
+>
+> The project initially focused on **multi-turn AI conversations** where players defended their excuses against different AI judges through an interactive chat.
+>
+> After building a working prototype, the concept was simplified into a **fast, one-shot party game**. Instead of lengthy conversations, players now receive a ridiculous scenario, write a single excuse, and instantly receive an AI-generated verdict.
+>
+> This redesign better reflects the core idea behind **Rate My Excuse** while making the gameplay faster, funnier, and far more accessible.
 
 ---
+
 ## Overview
 
-**Rate My Excuse** is an AI-powered conversation game where players must defend their excuses against AI judges with unique personalities.
+**Old**
 
----
+> **Rate My Excuse** is an AI-powered conversation game where players must defend their excuses against AI judges with unique personalities.
 
-# Purpose
+**New**
 
-This project is primarily built for learning while creating something fun.
-
-### Goals
-
-* Learn AI APIs
-* Learn Prompt Engineering
-* Learn Authentication
-* Learn Payment Integration
-* Learn Rate Limiting
-* Improve Full-Stack Development skills
+> **Rate My Excuse** is a fast-paced AI party game where players are given absurd scenarios and must write the most convincing excuse possible. The AI instantly delivers a hilarious verdict, score, and roast.
 
 ---
 
 # Features
 
-### 🤖 AI Personalities
+## ❌ Removed
 
-Each judge has a unique personality, speaking style, and evaluation style, making every conversation feel different.
+- Interactive AI conversations
+- Judge selection screen
+- Multi-turn questioning
+- Conversation history as core gameplay
 
-### 💬 Interactive Conversations
+---
 
-Instead of rating a single excuse, the AI starts a conversation, asks follow-up questions, and reaches its own conclusion.
+## ✅ New Features
 
-### 🎲 Random Scenarios
+### 🎯 Random Scenarios
 
-Every game begins with a randomly generated scenario tailored to the selected judge.
+Every game begins with a completely ridiculous scenario that gives the player a clear objective.
 
-### 🏆 Final Verdict
+Examples:
 
-Receive a score (0–100), an in-character response, and a brief explanation of why your excuse succeeded or failed.
+- Convince your boss deleting the database was productive.
+- Explain why a penguin is hiding inside your bedroom.
+- Justify bringing a crocodile into chemistry class.
 
-### 🔒 Daily Limits
+---
 
-Free users can play a limited number of conversations each day to encourage replayability and reduce AI costs.
+### ✍️ One-Shot Excuses
 
-### 📺 Advertisements
+Write a single excuse.
 
-Watch an ad to unlock additional conversations without purchasing Premium.
+No lengthy conversations.
 
-### 👤 Accounts
+No follow-up questions.
 
-Play instantly as a Guest or create an account to save progress, statistics, and unlock premium features.
+Just your best defense.
 
-### 💎 Premium
+---
 
-Unlock unlimited conversations, remove advertisements, and gain access to exclusive judges and scenarios.
+### 😂 AI Verdict
 
-### 📊 Player Statistics
+Receive an instant AI verdict including:
 
-Track games played, highest scores, conversation history, and other personal statistics.
+- Score (0–100)
+- Funny reaction
+- Short explanation
+- Score breakdown
 
-### 🎭 Unlockable Judges
+---
 
-Discover and unlock new personalities as the game grows, ranging from realistic characters to absurd ones.
+### 🌎 Community Feed
 
-### 📱 Mobile-First Design
+Browse excuses submitted by other players and like your favorites.
 
-Designed primarily for mobile devices with a clean, chat-style interface that feels like a messaging app.
+---
 
-### ⚡ Fast Gameplay
+### ⚡ Instant Gameplay
 
-Each conversation is designed to be short and engaging, making it easy to play multiple rounds in just a few minutes.
-
-### 🔄 Highly Replayable
-
-Different judges, scenarios, conversations, and AI responses ensure that no two games feel exactly the same.
+A complete round should take less than a minute.
 
 ---
 
 # Core Gameplay
 
-1. Select a judge.
-2. Receive a randomly generated scenario.
-3. The AI starts the conversation.
-4. Defend your excuse through a short chat.
-5. The AI asks follow-up questions based on your answers.
-6. After few messages, the AI ends the conversation and reveals the final verdict.
-
-### Final Verdict
-
-Every game ends with:
-
-* Score (0–100)
-* Short in-character reaction
-* Breakdown of what made the excuse believable or suspicious
+1. Receive a random scenario.
+2. Write your excuse.
+3. Submit it.
+4. Receive your AI verdict.
+5. Play again or browse community excuses.
 
 ---
 
-# AI Personality System
+# AI Judge System
 
-Every judge has:
+Every verdict is generated by an AI judge with its own personality.
 
-* A unique personality
-* A different speaking style
-* Different evaluation criteria
-* Different follow-up questions
+The judge is selected automatically to keep every round feeling fresh.
 
-### Initial Judges
-
-* 👩‍🏫 Teacher
-* 🚔 Police Officer
-* ❤️ Partner
-
-### Future Judges
-
-* 👨‍👩‍👧 Parent
-* 🤝 Friend
-* 💼 Boss
-* 💻 Interviewer
-* 🧮 Calculator
-* 🧙 Wizard
-* 🤖 AI Overlord
-* 🍕 Pizza Delivery Guy
-
----
-
-# Conversation System
-
-The conversation is the core gameplay.
-
-The AI should:
-
-* Generate the scenario.
-* Start the conversation.
-* Ask follow-up questions.
-* Detect contradictions.
-* React naturally to the user's responses.
-* End the conversation when enough information has been gathered.
-
-The conversation should feel like talking to a real person rather than filling out a form.
+Premium users will eventually be able to choose or even create their own custom judges.
 
 ---
 
 # App Flow
 
+```text
 Home
-
-↓
-
-Select Judge
-
-↓
-
-AI Generates Scenario
-
-↓
-
-Chat Conversation
-
-↓
-
-AI Follow-up Questions
-
-↓
-
-Final Verdict
+    ↓
+Random Scenario
+    ↓
+Write Excuse
+    ↓
+AI Verdict
+    ↓
+Play Again
+    ↓
+Community Feed
+```
 
 ---
 
@@ -177,121 +132,30 @@ Final Verdict
 
 ## 1. Home
 
-### Purpose
-
-Introduce the game and let users start playing.
+The entire game happens on a single page.
 
 ### Features
 
-* Logo
-* Short description
-* Play button
-* Daily excuse counter
-* Premium button
+- Logo
+- Random Scenario
+- Excuse Input
+- Submit Button
+- AI Verdict
+- Daily Games Counter
+- Premium Card
+- Community Feed
 
 ---
 
-## 2. Judge Selection
-
-Choose the AI personality.
+## 2. Profile
 
 ### Features
 
-* Judge cards
-* Personality preview
-* Difficulty (optional)
-
----
-
-## 3. Chat
-
-The primary gameplay screen.
-
-### Features
-
-* Chat interface
-* AI-generated scenario
-* User message input
-* AI responses
-* Typing indicator
-* Conversation history
-
-The AI automatically decides when to finish the conversation.
-
----
-
-## 4. Final Verdict
-
-Displayed after the conversation ends.
-
-### Features
-
-* Overall score
-* AI reaction
-* Score breakdown
-
-  * Believability
-  * Creativity
-  * Logic
-  * Confidence
-
-### Actions
-
-* Play Again
-* Share Result
-* Return Home
-
----
-
-## 5. Daily Limit
-
-Displayed when the user reaches the free limit.
-
-### Free Plan
-
-* 3 conversations per day
-
-### Options
-
-* Wait until reset
-* Watch an advertisement
-* Upgrade to Premium
-
----
-
-## 6. Advertisement
-
-Watch an advertisement to unlock another conversation.
-
-### Features
-
-* Advertisement
-* Countdown
-* +1 conversation
-
----
-
-## 7. Premium
-
-### Premium Benefits
-
-* Unlimited conversations
-* No advertisements
-* Exclusive judges
-* Exclusive scenarios
-
----
-
-## 8. Profile
-
-### Features
-
-* Username
-* Total conversations
-* Highest score
-* Match history
-* Subscription status
-* Settings
+- Username
+- Statistics
+- Saved Excuses
+- Subscription
+- Settings
 
 ---
 
@@ -299,55 +163,27 @@ Watch an advertisement to unlock another conversation.
 
 ### Style
 
-* Modern
-* Playful
-* Minimal
-* Chat-first
-* Mobile-friendly
+- Modern
+- Playful
+- Minimal
+- Mobile-first
+- Game-first
 
 ### Theme
 
-The app should feel like chatting with entertaining characters rather than using a traditional AI chatbot. The interface should resemble a messaging app while maintaining the energy of a casual party game.
+The interface should feel like a casual party game rather than an AI chatbot.
+
+Players should immediately understand what to do without reading instructions.
 
 ---
 
 # Future Ideas
 
-* Daily challenges
-* Leaderboards
-* Shareable verdict cards
-* Multiplayer battles
-* Community-voted excuses
-* Unlockable judges
-* Seasonal events
-* Achievement system
-* Custom AI personalities
-* Rare hidden judges
-
----
-
-# Tech Stack
-
-## Frontend
-- Next.js
-- React
-- TypeScript
-- Tailwind CSS
-
-## Backend
-- Next.js API Routes
-
-## Database
-- Supabase
-
-## Authentication
-- Supabase Auth
-
-## AI
-- Gemini API
-
-## Payments
-- TBD
-
-## Advertisements
-- TBD
+- Community leaderboard
+- Daily scenarios
+- Shareable verdict cards
+- Custom judge creator (Premium)
+- Scenario packs
+- Custom themes
+- AI-generated profile pictures
+- Seasonal events
