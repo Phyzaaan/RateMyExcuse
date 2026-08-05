@@ -61,6 +61,8 @@ export default function Home() {
         loading={loading}
         onChange={setExcuse}
         onSubmit={handleSubmit}
+        verdict={verdict}
+        onReset={handleReset}
       />
 
       <ResultSection

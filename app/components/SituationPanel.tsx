@@ -1,3 +1,6 @@
+import { Verdict } from "../data/type";
+import ResultSection from "./ResultSection";
+
 interface SituationPanelProps {
   scenario: string;
   excuse: string;
@@ -5,6 +8,8 @@ interface SituationPanelProps {
   loading: boolean;
   onChange: (value: string) => void;
   onSubmit: () => void;
+  verdict: Verdict | null;
+  onReset: () => void;
 }
 
 export default function SituationPanel({
@@ -14,24 +19,34 @@ export default function SituationPanel({
   loading,
   onChange,
   onSubmit,
+  verdict,
+  onReset,
 }: SituationPanelProps) {
   return (
-    !submittedExcuse && (
-      <section className="w-full max-w-5xl mx-auto px-4">
-        <div className="rounded-2xl glass-panel px-2 py-4 shadow-md">
-          <div className="flex flex-col gap-4">
-            <div className="flex flex-row gap-2 items-center">
-              <span className="text-6xl">🎯</span>
-              <div>
-                <p className="text-sm uppercase tracking-wide text-tertiary">
-                  Mission
-                </p>
-                <p className="text-xl lg:text-2xl font-semibold leading-tight text-primary">
+    <section className="w-full max-w-5xl mx-auto px-4">
+      <div className="rounded-2xl glass-panel px-2 py-4 shadow-md">
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-row gap-2 items-center px-4 py-2">
+            {/* <span className="text-6xl">🎯</span>
+            <div>
+              <p className="text-xl text-Secondary font-semibold leading-6">
+                🎯 Mission
+              </p>
+              <p className="text-xl lg:text-2xl font-semibold leading-tight text-primary">
+                {scenario}
+              </p>
+            </div> */}
+            <div className="rounded-2xl">
+                <h2 className="text-xl md:text-3xl font-black tracking-tight text-primary">
+                 🎯 Mission
+                </h2>
+                <p className="text-base md:text-lg text-secondary font-semibold leading-7">
                   {scenario}
                 </p>
               </div>
-            </div>
+          </div>
 
+          {!submittedExcuse ? (
             <div className="relative">
               <textarea
                 value={excuse}
@@ -44,8 +59,27 @@ export default function SituationPanel({
                 {excuse.length}/500
               </span>
             </div>
+          ) : (
+            <>
+              <div className="rounded-2xl px-4 py-2">
+                <h2 className="text-xl md:text-3xl font-black tracking-tight text-primary">
+                  💬 Your Excuse
+                </h2>
+                <p className="text-base md:text-lg text-secondary font-semibold leading-7">
+                  &rdquo;I was just improving our disaster recovery strategy. Now we
+                  have a cleaner, faster database! 😎&rdquo;
+                </p>
+              </div>
+              <ResultSection
+                submittedExcuse={submittedExcuse}
+                verdict={verdict}
+                onReset={onReset}
+              />
+            </>
+          )}
 
-            <div className="flex justify-center">
+          <div className="flex justify-center">
+            {!submittedExcuse && (
               <button
                 type="button"
                 onClick={onSubmit}
@@ -54,10 +88,10 @@ export default function SituationPanel({
               >
                 {loading ? "Rating…" : "Rate My Excuse"}
               </button>
-            </div>
+            )}
           </div>
         </div>
-      </section>
-    )
+      </div>
+    </section>
   );
 }

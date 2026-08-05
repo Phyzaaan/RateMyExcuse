@@ -23,8 +23,7 @@ export default function ResultSection({
     : "Waiting for the judge to decide if your excuse survives the roast...";
 
   return (
-    <section className="w-full max-w-5xl mx-auto px-4">
-      <div className="rounded-2xl glass-panel p-6 shadow-md shadow-slate-200/40">
+      <div className="px-2">
         
         <div className="mb-6 flex flex-col items-center gap-3 text-center">
           <div className="inline-flex items-center gap-3 rounded-full text-8xl font-black text-primary">
@@ -59,6 +58,5 @@ export default function ResultSection({
           </button>
         </div>
       </div>
-    </section>
   );
 }
