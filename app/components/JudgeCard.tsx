@@ -37,13 +37,13 @@ export default function JudgeCard({ judge }: { judge: Judge }) {
       </div>
 
       {/* Judge Info */}
-      <div className="absolute bottom-0 inset-x-0 bg-white/80 backdrop-blur-md rounded-xl px-2 py-1 text-center border border-white z-10 shadow-sm">
+      <div className="absolute bottom-0 inset-x-0 bg-primary-bg/80 backdrop-blur-md rounded-xl px-2 py-1 text-center border border-white z-10 shadow-sm">
         <h3
           className={`font-black text-lg leading-tight ${judge.text}`}
         >
           {judge.name}
         </h3>
-        <p className="text-[10px] text-slate-500 font-bold mt-0.5 leading-tight px-1">
+        <p className="text-[10px] text-tertiary font-bold mt-0.5 leading-tight px-1">
           {judge.punchline}
         </p>
       </div>

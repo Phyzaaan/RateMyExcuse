@@ -138,7 +138,7 @@ export default function Chat() {
   return (
     <main className="flex flex-col w-full max-w-3xl">
       {/* Header */}
-      <div className={`flex items-center justify-between bg-white py-3 px-4 sticky top-0 z-10`}>
+      <div className={`flex items-center justify-between bg-primary-bg py-3 px-4 sticky top-0 z-10`}>
         <Link
           href="/judges"
           className="w-10 h-10 bg-card-bg hover:bg-card-bg-hover rounded-full shadow-sm flex items-center justify-center text-primary-from transition-colors"
@@ -173,7 +173,7 @@ export default function Chat() {
       {/* Scenario Card - sticky below header */}
       {loading && !isFetchingVerdict && !scenario ? (
         <div className="sticky top-18 z-10 pb-2">
-          <div className={`flex items-center gap-3 bg-white/80 backdrop-blur-md rounded-xl px-4 py-3 shadow-sm animate-pulse`}>
+          <div className={`flex items-center gap-3 bg-primary-bg/80 backdrop-blur-md rounded-xl px-4 py-3 shadow-sm animate-pulse`}>
             <div className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0`} />
             <div className="flex-1 space-y-2">
               <div className={`h-3 ${judge.color} rounded-full w-3/4`} />
@@ -184,7 +184,7 @@ export default function Chat() {
       ) : (
         scenario && (
           <div className="sticky top-18 z-10 pb-2">
-            <div className={`flex items-center gap-3 bg-white/80 backdrop-blur-md rounded-xl px-4 py-3 shadow-sm`}>
+            <div className={`flex items-center gap-3 bg-primary-bg/80 backdrop-blur-md rounded-xl px-4 py-3 shadow-sm`}>
               <div className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0`}>
                 <Target
                   className="w-4.5 h-4.5 text-orange-600"
@@ -241,7 +241,7 @@ export default function Chat() {
               placeholder="Type your excuse..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              className="w-full bg-white border border-card-border rounded-full py-3 px-5 text-sm focus:outline-none focus:border-primary-from focus:ring-2 focus:ring-primary-from/20 transition-all text-text-secondary placeholder:text-text-tertiary shadow-sm"
+              className="w-full bg-primary-bg border border-card-border rounded-full py-3 px-5 text-sm focus:outline-none focus:border-primary-from focus:ring-2 focus:ring-primary-from/20 transition-all text-text-secondary placeholder:text-text-tertiary shadow-sm"
             />
           </div>
           <button
@@ -279,7 +279,7 @@ export default function Chat() {
       {/* Verdict fetching popup */}
       {isFetchingVerdict && (
         <div className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-slate-900/30 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-white w-full max-w-sm rounded-3xl p-8 flex flex-col items-center gap-5 shadow-2xl border-4 border-white/80 animate-in zoom-in-95 duration-300">
+          <div className="bg-primary-bg w-full max-w-sm rounded-3xl p-8 flex flex-col items-center gap-5 shadow-2xl border-4 border-white/80 animate-in zoom-in-95 duration-300">
             <svg
               className={`animate-spin w-10 h-10 ${judge.text}`}
               viewBox="0 0 24 24"

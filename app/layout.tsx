@@ -1,16 +1,6 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { baloo2, geistSans } from "./utils/libs/fonts";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "Rate My Excuse",
@@ -25,9 +15,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      className={`${geistSans.variable} ${baloo2.variable} antialiased`}
     >
-      <body className="h-screen w-screen flex flex-col items-center overflow-y-auto overflow-x-hidden">{children}</body>
+      <body className="h-screen w-screen flex flex-col items-center overflow-y-auto overflow-x-hidden">
+        {children}
+      </body>
     </html>
   );
 }
