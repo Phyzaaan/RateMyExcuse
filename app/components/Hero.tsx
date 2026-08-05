@@ -5,7 +5,7 @@ export default function HeroSection() {
     <section className="relative w-full max-w-5xl shrink-0 mx-auto overflow-hidden rounded-3xl p-4 sm:p-6">
         <div className="relative z-10 flex flex-col">
           <div className="flex items-center justify-start gap-2">
-            <div className="flex items-center gap-1 p-1 pr-2 rounded-3xl shadow-sm backdrop-blur-2xl bg-primary-bg/45 ring-1 ring-accent-from/30 hover:bg-slate-50 transition">
+            <div className="flex items-center gap-1 p-1 pr-2 rounded-3xl shadow-sm backdrop-blur-2xl bg-primary-bg/45 ring-1 ring-primary-color/30 hover:bg-slate-50 transition">
               <div className="relative h-12 w-12 overflow-hidden rounded-full border-2 border-white shadow-sm">
                 <Image
                   src="/img/Phantom.jpeg"
