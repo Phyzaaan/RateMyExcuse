@@ -3,7 +3,6 @@
 import { useState } from "react";
 import HeroSection from "./components/Hero";
 import SituationPanel from "./components/SituationPanel";
-import ResultSection from "./components/ResultSection";
 import ActionPanel from "./components/ActionPanel";
 import CommunityFeed from "./components/CommunityFeed";
 import FooterNote from "./components/FooterNote";
@@ -61,12 +60,6 @@ export default function Home() {
         loading={loading}
         onChange={setExcuse}
         onSubmit={handleSubmit}
-        verdict={verdict}
-        onReset={handleReset}
-      />
-
-      <ResultSection
-        submittedExcuse={submittedExcuse}
         verdict={verdict}
         onReset={handleReset}
       />
