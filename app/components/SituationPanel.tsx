@@ -26,24 +26,24 @@ export default function SituationPanel({
     <section className="w-full max-w-5xl mx-auto px-4">
       <div className="rounded-2xl glass-panel px-2 py-4 shadow-md">
         <div className="flex flex-col gap-4">
-          <div className="flex flex-row gap-2 items-center px-4 py-2">
-            {/* <span className="text-6xl">🎯</span>
+          {/* <div className="flex flex-row gap-2 items-center px-4 py-2">
+            <span className="text-6xl">🎯</span>
             <div>
-              <p className="text-xl text-Secondary font-semibold leading-6">
+              <h2 className="text-xl text-Secondary font-semibold leading-6">
                 🎯 Mission
-              </p>
+              </h2>
               <p className="text-xl lg:text-2xl font-semibold leading-tight text-primary">
                 {scenario}
               </p>
-            </div> */}
-            <div className="rounded-2xl">
-                <h2 className="text-xl md:text-3xl font-black tracking-tight text-primary">
-                 🎯 Mission
-                </h2>
-                <p className="text-base md:text-lg text-secondary font-semibold leading-7">
-                  {scenario}
-                </p>
-              </div>
+            </div> 
+          </div> */}
+          <div className="rounded-2xl border border-slate-200/70 bg-primary-bg/80 p-6 shadow-[0_20px_40px_rgba(15,23,42,0.08)]">
+            <h2 className="text-xl md:text-3xl font-black tracking-tight text-primary">
+              🎯 Mission
+            </h2>
+            <p className="text-base md:text-lg text-secondary font-semibold leading-7">
+              {scenario}
+            </p>
           </div>
 
           {!submittedExcuse ? (
@@ -61,13 +61,13 @@ export default function SituationPanel({
             </div>
           ) : (
             <>
-              <div className="rounded-2xl px-4 py-2">
+              <div className="rounded-2xl border border-slate-200/70 bg-primary-bg/80 p-6 shadow-[0_20px_40px_rgba(15,23,42,0.08)]">
                 <h2 className="text-xl md:text-3xl font-black tracking-tight text-primary">
                   💬 Your Excuse
                 </h2>
                 <p className="text-base md:text-lg text-secondary font-semibold leading-7">
-                  &rdquo;I was just improving our disaster recovery strategy. Now we
-                  have a cleaner, faster database! 😎&rdquo;
+                  &rdquo;I was just improving our disaster recovery strategy.
+                  Now we have a cleaner, faster database! 😎&rdquo;
                 </p>
               </div>
               <ResultSection
