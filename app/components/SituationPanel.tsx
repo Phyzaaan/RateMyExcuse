@@ -24,7 +24,7 @@ export default function SituationPanel({
   onReset,
 }: SituationPanelProps) {
   return (
-    <section className="w-full max-w-5xl mx-auto px-4">
+    <section className="max-w-5xl w-full mx-auto px-4">
       <div className="rounded-2xl glass-panel px-4 py-4 shadow-md">
         <div className="flex flex-col gap-4">
           <div className="flex flex-row gap-2 items-center">

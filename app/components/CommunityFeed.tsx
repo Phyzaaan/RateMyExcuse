@@ -83,13 +83,16 @@ export default function CommunityFeed() {
   };
 
   return (
-    <section className="w-full max-w-5xl mx-auto px-2 sm:px-4">
+    <section className="max-w-5xl  w-full mx-auto px-2 sm:px-4">
       <div className="rounded-2xl glass-panel p-3 sm:p-5 shadow-md overflow-hidden">
         {/* Header Section */}
         <div className="flex flex-row items-center justify-between gap-3 mb-1 sm:mb-0">
           <div className="flex flex-row items-center gap-2 sm:gap-3">
             <div className="shrink-0">
-              <Users fill="#372aac" className="w-9 h-9 sm:w-11 sm:h-11 text-indigo-800" />
+              <Users
+                fill="#372aac"
+                className="w-9 h-9 sm:w-11 sm:h-11 text-indigo-800"
+              />
             </div>
             <div>
               <p className="text-xl sm:text-2xl md:text-3xl font-baloo2 font-black text-indigo-900 leading-tight">
@@ -123,34 +126,38 @@ export default function CommunityFeed() {
           <div
             ref={carouselRef}
             onScroll={checkScrollState}
-            className="flex gap-3 sm:gap-4 overflow-x-auto snap-x snap-mandatory py-3 px-1 sm:px-2 scroll-smooth"
+            className="flex carousel-mask gap-3 sm:gap-4 overflow-x-auto snap-x snap-mandatory py-3 px-1 sm:px-2 scroll-smooth"
           >
             {feed.map((item, index) => (
               <div
                 key={index}
-                className="relative flex w-64 shrink-0 snap-start flex-col justify-between rounded-2xl border border-slate-200/70 bg-primary-bg/70 backdrop-blur-md p-4 sm:p-5 hover:shadow-sm hover:-translate-y-0.5 transition-all"
+                className="relative flex w-64 shrink-0 snap-start flex-col justify-between rounded-2xl border border-slate-200/70 bg-primary-bg/70 backdrop-blur-md p-4 sm:p-5 pt-6 hover:shadow-sm hover:-translate-y-0.5 transition-all"
               >
                 {/* Content Top */}
                 <div className="w-full h-full flex flex-col gap-2">
                   {/* Scenario Tag */}
                   <div>
-                    <span className="inline-block rounded-md bg-purple-100/80 px-2 py-0.5 text-[11px] font-bold text-purple-600">
-                      🎯 Scenario
+                    <span className="text-xs font-extrabold text-primary">
+                      🎯 Mission
                     </span>
-                    <h4 className="text-sm sm:text-base min-h-14 font-extrabold text-primary leading-snug line-clamp-3">
+                    <h4 className="text-sm sm:text-base min-h-14 font-bold text-primary leading-snug line-clamp-3">
                       {item.scenario}
                     </h4>
                   </div>
 
                   {/* Excuse Tag */}
                   <div>
-                    <span className="inline-block rounded-md bg-pink-100/80 px-2 py-0.5 text-[11px] font-bold text-pink-500">
+                    <span className="text-xs font-semibold text-primary">
                       💬 Excuse
                     </span>
                     <p className="text-xs sm:text-sm font-medium text-secondary leading-relaxed line-clamp-4">
-                      {item.excuse}
+                      &quot;{item.excuse}&quot;
                     </p>
                   </div>
+                </div>
+
+                <div className="pb-2">
+                  <div className="border border-slate-300" />
                 </div>
 
                 {/* Content Bottom Row */}
@@ -176,7 +183,7 @@ export default function CommunityFeed() {
                 </div>
 
                 {/* Floating Score Box */}
-                <div className="absolute right-1 top-0.5 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-2xl bg-primary-bg shadow-md shadow-slate-200/50 border border-slate-100 text-lg sm:text-xl font-black text-emerald-500">
+                <div className="absolute -right-2 -top-2 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-primary-bg shadow-md shadow-slate-200/50 border border-slate-100 text-lg sm:text-xl font-black text-emerald-500">
                   {item.score}
                 </div>
               </div>
