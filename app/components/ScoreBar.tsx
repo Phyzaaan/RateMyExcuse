@@ -31,14 +31,12 @@ export default function ScoreBar({
 
   return (
     <div className="grid grid-cols-1 gap-2 py-2 sm:grid-cols-3">
-      {metrics.map((metric, index) => {
-        const visible = step >= index + 2;
+      {metrics.map((metric) => {
+        const visible = step > 3;
         return (
           <div
             key={metric.name}
-            className={`p-2 transition-opacity duration-500 ${
-              visible ? "opacity-100 fade-in-up" : "opacity-0"
-            }`}
+            className={`p-2 `}
           >
             <div className="flex items-center justify-between text-sm font-semibold text-secondary">
               <span>{metric.name}</span>

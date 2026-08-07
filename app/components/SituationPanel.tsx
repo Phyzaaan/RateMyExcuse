@@ -29,7 +29,7 @@ export default function SituationPanel({
 }: SituationPanelProps) {
   return (
     <section className="max-w-5xl w-full mx-auto px-4">
-      <div className="rounded-2xl glass-panel px-4 py-4 shadow-md game-pop transition-all duration-500 ease-out">
+      <div className="rounded-2xl glass-panel px-4 py-4 shadow-md transition-all duration-300">
         <div className="flex flex-col gap-4">
           <div className="flex flex-row gap-2 items-center">
             <span className="text-6xl">🎯</span>
@@ -49,12 +49,15 @@ export default function SituationPanel({
             </div>
           ) : null}
 
-          {!submittedExcuse ? (
-            <div className="relative transition-all duration-500 ease-out fade-in-up">
+          <div
+            className="grid transition-all duration-300 ease-in-out grid-rows-[1fr] aria-hidden:grid-rows-[0fr] opacity-100 aria-hidden:opacity-0"
+            aria-hidden={!!submittedExcuse}
+          >
+            <div className={`overflow-hidden min-h-0 relative`}>
               <textarea
                 value={excuse}
                 onChange={(event) => onChange(event.target.value)}
-                className="min-h-50 w-full rounded-2xl border border-slate-200 bg-primary-bg px-3 py-2 text-lg leading-7 text-primary shadow-sm outline-none transition-transform duration-500 ease-out focus:border-sky-400 focus:ring-2 focus:ring-sky-100"
+                className="min-h-50 w-full rounded-2xl border border-slate-200 bg-primary-bg px-3 py-2 text-lg leading-7 text-primary shadow-sm outline-none transition-transform duration-300 ease-out focus:border-sky-400 focus:ring-2 focus:ring-sky-100"
                 placeholder="My defense begins..."
                 maxLength={500}
               />
@@ -62,23 +65,31 @@ export default function SituationPanel({
                 {excuse.length}/500
               </span>
             </div>
-          ) : (
-            <>
-              <div className="rounded-2xl glass-panel px-4 py-3 shadow-sm pop-in shimmer-slide">
-                <h2 className="flex items-center gap-1 text-2xl font-black tracking-tight text-primary font-baloo2">
-                  <MessageCircleMore className="w-6.5 h-6.5" /> Your Excuse
-                </h2>
-                <p className="text-base text-secondary font-semibold leading-7">
-                  &rdquo;{submittedExcuse}&rdquo;
-                </p>
+          </div>
+
+          <div>
+            <div
+              className="grid transition-all duration-300 ease-in-out grid-rows-[0fr] aria-expanded:grid-rows-[1fr] opacity-0 aria-expanded:opacity-100"
+              aria-expanded={!!submittedExcuse}
+            >
+              <div className="overflow-hidden min-h-0 pb-2">
+                <div className="rounded-2xl glass-panel px-4 py-3 shadow-sm  ">
+                  <h2 className="flex items-center gap-1 text-2xl font-black tracking-tight text-primary font-baloo2">
+                    <MessageCircleMore className="w-6.5 h-6.5" /> Your Excuse
+                  </h2>
+                  <p className="text-base text-secondary font-semibold leading-7">
+                    &rdquo;{submittedExcuse}&rdquo;
+                  </p>
+                </div>
               </div>
-              <ResultSection
-                submittedExcuse={submittedExcuse}
-                verdict={verdict}
-                onReset={onReset}
-              />
-            </>
-          )}
+            </div>
+
+            <ResultSection
+              submittedExcuse={submittedExcuse}
+              verdict={verdict}
+              onReset={onReset}
+            />
+          </div>
 
           <div className="flex justify-center">
             {!submittedExcuse && (
