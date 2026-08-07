@@ -3,6 +3,8 @@ import ResultSection from "./ResultSection";
 import { MessageCircleMore } from "lucide-react";
 
 interface SituationPanelProps {
+  startError: string | null;
+  startLoading: boolean;
   scenario: string;
   excuse: string;
   submittedExcuse: string;
@@ -22,29 +24,37 @@ export default function SituationPanel({
   onSubmit,
   verdict,
   onReset,
+  startError,
+  startLoading,
 }: SituationPanelProps) {
   return (
     <section className="max-w-5xl w-full mx-auto px-4">
-      <div className="rounded-2xl glass-panel px-4 py-4 shadow-md">
+      <div className="rounded-2xl glass-panel px-4 py-4 shadow-md game-pop transition-all duration-500 ease-out">
         <div className="flex flex-col gap-4">
           <div className="flex flex-row gap-2 items-center">
             <span className="text-6xl">🎯</span>
             <div>
               <h2 className="text-3xl font-black tracking-tight text-primary font-baloo2">
-                  Mission
-                </h2>
-                <p className="text-lg text-secondary font-bold leading-7">
-                  {scenario}
-                </p>
-            </div> 
+                Mission
+              </h2>
+              <p className="text-lg text-secondary font-bold leading-7">
+                {startLoading ? "Fetching a mission for you..." : scenario}
+              </p>
+            </div>
           </div>
 
+          {startError ? (
+            <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+              {startError}
+            </div>
+          ) : null}
+
           {!submittedExcuse ? (
-            <div className="relative">
+            <div className="relative transition-all duration-500 ease-out fade-in-up">
               <textarea
                 value={excuse}
                 onChange={(event) => onChange(event.target.value)}
-                className="min-h-50 w-full rounded-2xl border border-slate-200 bg-primary-bg px-3 py-2 text-lg leading-7 text-primary shadow-sm outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100"
+                className="min-h-50 w-full rounded-2xl border border-slate-200 bg-primary-bg px-3 py-2 text-lg leading-7 text-primary shadow-sm outline-none transition-transform duration-500 ease-out focus:border-sky-400 focus:ring-2 focus:ring-sky-100"
                 placeholder="My defense begins..."
                 maxLength={500}
               />
@@ -54,9 +64,9 @@ export default function SituationPanel({
             </div>
           ) : (
             <>
-              <div className="rounded-2xl glass-panel px-4 py-3 shadow-sm">
+              <div className="rounded-2xl glass-panel px-4 py-3 shadow-sm pop-in shimmer-slide">
                 <h2 className="flex items-center gap-1 text-2xl font-black tracking-tight text-primary font-baloo2">
-                  <MessageCircleMore className="w-6.5 h-6.5"/> Your Excuse
+                  <MessageCircleMore className="w-6.5 h-6.5" /> Your Excuse
                 </h2>
                 <p className="text-base text-secondary font-semibold leading-7">
                   &rdquo;{submittedExcuse}&rdquo;

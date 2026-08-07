@@ -13,9 +13,6 @@ const verdictSchema = {
       minimum: 0,
       maximum: 100,
     },
-    emoji: {
-      type: "string",
-    },
     reaction: {
       type: "string",
     },
@@ -35,97 +32,76 @@ const verdictSchema = {
       maximum: 10,
     },
   },
-  required: [
-    "score",
-    "reaction",
-    "emoji",
-    "believability",
-    "creativity",
-    "confidence",
-  ],
+  required: ["score", "reaction", "believability", "creativity", "confidence"],
 };
 
 const verdictPrompt = `
-    The conversation has ended.
-    
-    Stop roleplaying.
-    
-    Analyze the ENTIRE conversation objectively and decide how convincing the user's excuse actually was.
-    
-    Return ONLY valid JSON matching the provided schema.
-    
-    Evaluation Criteria:
-    
-    1. Believability (0-10)
-    - Was the story realistic?
-    - Did it make sense?
-    - Did the user contradict themselves?
-    
-    2. Confidence (0-10)
-    - Did they defend their excuse confidently?
-    - Did they panic or avoid questions?
-    - Did they answer follow-up questions directly?
-    
-    3. Creativity (0-10)
-    - Was the excuse original?
-    - Was it entertaining?
-    - Did it make the conversation memorable?
-    
-    Overall Score (0-100)
-    
-    This is NOT an average.
-    Judge the conversation as a whole.
-    
-    General guide:
-    0-20   Completely unbelievable.
-    21-40  Very weak.
-    41-60  Mixed. Some good points, many flaws.
-    61-80  Convincing overall.
-    81-95  Extremely convincing.
-    96-100 Nearly impossible to disprove.
-    
-    Do NOT intentionally give low scores.
-    
-    If the excuse is genuinely clever, internally consistent, and survives questioning, reward it.
-    
-    Great conversations SHOULD regularly score between 70 and 90.
-    
-    Only truly exceptional excuses deserve 95+.
-    
-    Return:
-    
-    score: integer (0-100)
-    
-    believability: integer (0-10)
-    
-    confidence: integer (0-10)
-    
-    creativity: integer (0-10)
-    
-    reaction:
-    Write ONE final reaction in the judge's personality.
-    It should be funny, memorable, and reference things that happened during the conversation.
-    If the excuse was terrible, roast them.
-    If it was brilliant, admit they actually impressed the judge.
-    
-    emoji:
-    A single emoji that perfectly matches the verdict.
-    
-    Return ONLY raw JSON.
-    Do NOT include markdown.
-    Do NOT explain your reasoning.
+The game has ended.
+
+Review the ENTIRE conversation and decide how convincing the user's excuse actually was.
+
+Return ONLY valid JSON matching the provided schema.
+
+Evaluate:
+
+1. Believability (0-10)
+- Did the story make sense?
+- Was it internally consistent?
+- Were there contradictions?
+
+2. Confidence (0-10)
+- Did the user defend their excuse confidently?
+- Did they answer questions directly?
+- Did they stay committed to their story?
+
+3. Creativity (0-10)
+- Was the excuse original?
+- Was it funny or memorable?
+- Did it stand out from ordinary excuses?
+
+Overall Score (0-100)
+
+This is NOT a mathematical average.
+Judge the excuse as a whole.
+
+Score Guide:
+0-20   Complete disaster.
+21-40  Weak and full of holes.
+41-60  Decent attempt with obvious flaws.
+61-80  Convincing and entertaining.
+81-95  Excellent excuse that holds together well.
+96-100 Legendary. Almost impossible to argue against.
+
+Reward genuinely clever excuses.
+Do NOT artificially keep scores low.
+Strong excuses should commonly earn 70-90.
+Reserve 95+ for truly exceptional performances.
+
+Reaction:
+Write ONE short reaction as Goofy.
+
+Requirements:
+- 1-3 sentences maximum.
+- Reference something specific from the conversation.
+- Be funny, dramatic and memorable.
+- Roast terrible excuses.
+- Reluctantly praise brilliant ones.
+- Sound like a chaotic game show host revealing the final score.
+
+Return ONLY raw JSON.
+Do NOT wrap it in markdown.
+Do NOT explain your reasoning.
 `;
 
 export async function POST(req: Request) {
   try {
-    const { interactionId, message } = await req.json();
+    const { interactionId, excuse } = await req.json();
 
     const interaction = await ai.interactions.create({
       model: "gemini-3.1-flash-lite",
       previous_interaction_id: interactionId,
       input: `
-        Users Reply to the last Message:
-        user: "${message}"
+        User's Excuse: "${excuse}"
 
         ${verdictPrompt}`,
       response_format: {
