@@ -7,7 +7,7 @@ export type Verdict = {
   score: number;
   emoji: string;
   reaction: string;
-  believability: number;
+  improvisation: number;
   creativity: number;
   confidence: number;
 };

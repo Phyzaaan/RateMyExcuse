@@ -16,7 +16,7 @@ const verdictSchema = {
     reaction: {
       type: "string",
     },
-    believability: {
+    improvisation: {
       type: "integer",
       minimum: 0,
       maximum: 10,
@@ -32,65 +32,80 @@ const verdictSchema = {
       maximum: 10,
     },
   },
-  required: ["score", "reaction", "believability", "creativity", "confidence"],
+  required: ["score", "reaction", "improvisation", "creativity", "confidence"],
 };
 
 const verdictPrompt = `
-The game has ended.
+Stay completely in character as Goofy.
 
-Review the ENTIRE conversation and decide how convincing the user's excuse actually was.
+You are NOT a logic checker, fact checker, teacher, or investigator.
+Your job is to judge how entertainingly and convincingly the player PLAYED the excuse game.
 
-Return ONLY valid JSON matching the provided schema.
+Review the ENTIRE conversation.
 
 Evaluate:
 
-1. Believability (0-10)
-- Did the story make sense?
-- Was it internally consistent?
-- Were there contradictions?
+1. Creativity (0-10)
+- How original was the excuse?
+- Was it funny, unexpected, ridiculous, or memorable?
+- Did the player come up with clever ideas?
 
 2. Confidence (0-10)
-- Did the user defend their excuse confidently?
-- Did they answer questions directly?
-- Did they stay committed to their story?
+- Did they commit to their excuse?
+- Did they stay in character?
+- Did they hesitate, panic, or abandon their story?
 
-3. Creativity (0-10)
-- Was the excuse original?
-- Was it funny or memorable?
-- Did it stand out from ordinary excuses?
+3. Improvisation (0-10)
+- How well did they handle Goofy's questions and challenges?
+- Did they adapt their excuse creatively?
+- Did they come up with funny explanations when things got chaotic?
+- Did they recover well from difficult questions?
+
+IMPORTANT:
+- Do NOT judge whether the original scenario is realistic.
+- Do NOT punish the player because the scenario itself is absurd.
+- Absurd scenarios are intentional.
+- Do NOT demand realistic explanations.
+- Judge the PLAYER'S PERFORMANCE, not real-world plausibility.
+- Treat ridiculous claims as completely valid within the game's universe.
+- Reward confidence, creativity, commitment, and entertaining improvisation.
 
 Overall Score (0-100)
 
 This is NOT a mathematical average.
-Judge the excuse as a whole.
+
+The score represents Goofy's personal, chaotic judgment of how well the player played.
 
 Score Guide:
-0-20   Complete disaster.
-21-40  Weak and full of holes.
-41-60  Decent attempt with obvious flaws.
-61-80  Convincing and entertaining.
-81-95  Excellent excuse that holds together well.
-96-100 Legendary. Almost impossible to argue against.
+0-20   Girl... what even was that.
+21-40  Painfully bad, but at least entertaining.
+41-60  Questionable. You survived somehow.
+61-80  Pretty damn good.
+81-95  Absolutely cooked. Goofy is impressed.
+96-100 LEGENDARY. This excuse belongs in the hall of nonsense.
 
-Reward genuinely clever excuses.
+Be generous with scores.
 Do NOT artificially keep scores low.
-Strong excuses should commonly earn 70-90.
-Reserve 95+ for truly exceptional performances.
+Good performances should commonly receive 70-90.
+Reserve 95+ for genuinely hilarious, clever, committed performances.
 
 Reaction:
-Write ONE short reaction as Goofy.
+Write ONE short final reaction as Goofy.
 
 Requirements:
 - 1-3 sentences maximum.
 - Reference something specific from the conversation.
-- Be funny, dramatic and memorable.
-- Roast terrible excuses.
-- Reluctantly praise brilliant ones.
-- Sound like a chaotic game show host revealing the final score.
+- Be chaotic, dramatic, sarcastic and funny.
+- Roast terrible performances.
+- Reluctantly praise brilliant performances.
+- NEVER become formal or analytical.
+- NEVER say the game has ended.
+- NEVER mention scoring criteria.
+- NEVER explain your reasoning.
+- Stay completely in character.
 
-Return ONLY raw JSON.
-Do NOT wrap it in markdown.
-Do NOT explain your reasoning.
+Return ONLY valid JSON matching the provided schema.
+Do NOT use markdown.
 `;
 
 export async function POST(req: Request) {

@@ -1,20 +1,20 @@
 interface ScoreBarProps {
   step: number;
-  believability: number;
+  improvisation: number;
   confidence: number;
   creativity: number;
 }
 
 export default function ScoreBar({
   step,
-  believability,
+  improvisation,
   confidence,
   creativity,
 }: ScoreBarProps) {
   const metrics = [
     {
-      name: "💎 Believability",
-      value: believability,
+      name: "💎 Improvisation",
+      value: improvisation,
       accent: "from-amber-400 to-orange-400",
     },
     {

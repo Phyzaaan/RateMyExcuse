@@ -1,16 +1,3 @@
-export const roles = [
-  "Teacher",
-  "Boss",
-  "Police Officer",
-  "Parent",
-  "Doctor",
-  "Landlord",
-  "Flight Attendant",
-  "Wizard",
-  "Alien",
-  "Pirate",
-];
-
 export const actions = [
   "lost",
   "destroyed",
@@ -35,11 +22,4 @@ export const objects = [
   "internet",
   "ancient artifact",
   "dragon",
-];
-
-export const tones = [
-  "Serious",
-  "Absurd",
-  "Chaotic",
-  "Embarrassing",
 ];
