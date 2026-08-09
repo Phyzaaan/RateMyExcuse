@@ -1,5 +1,3 @@
-import React from "react";
-
 const AMBIENT_BLOBS = [
   // Left: Deep offset, large pink glow
   {

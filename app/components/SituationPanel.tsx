@@ -91,8 +91,8 @@ export default function SituationPanel({
             />
           </div>
 
-          <div className="flex justify-center">
-            {!submittedExcuse && (
+          {!submittedExcuse && (
+            <div className="flex justify-center">
               <button
                 type="button"
                 onClick={onSubmit}
@@ -101,8 +101,8 @@ export default function SituationPanel({
               >
                 {loading ? "Rating…" : "Rate My Excuse"}
               </button>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </section>

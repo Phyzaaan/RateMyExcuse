@@ -107,7 +107,7 @@ export default function ResultSection({
                 : "opacity-0 translate-y-3"
             }`}
           >
-            <div className="inline-flex items-center gap-3 text-8xl font-black text-primary score-bounce  overflow-hidden min-h-0">
+            <div className="inline-flex items-center gap-3 text-8xl font-black text-primary overflow-hidden min-h-0">
               <span className="text-primary-color">{displayScore}</span>
               <span className="text-7xl font-extralight -translate-x-5 translate-y-2">
                 /
@@ -130,7 +130,7 @@ export default function ResultSection({
                 <Image src="/img/Doofus.png" alt="Emoji" width={80} height={80} />
               </div>
 
-              <div className="relative w-xs sm:w-md md:w-lg lg:w-3xl bg-slate-100 text-primary px-2 py-2 rounded-3xl border-4 border-slate-600 font-bold shadow-md glow-pulse ">
+              <div className="relative w-xs sm:w-md md:w-lg lg:w-3xl bg-slate-100 text-primary px-2 py-2 rounded-3xl border-4 border-slate-600 font-bold shadow-md">
                 <p className="text-lg font-baloo2 font-semibold min-h-12 text-left">
                   {typedReaction} <span className="typing-cursor" />
                 </p>
@@ -150,7 +150,7 @@ export default function ResultSection({
           <div className="overflow-hidden min-h-0 ">
             <ScoreBar
               step={step}
-              believability={verdict?.believability ?? 0}
+              improvisation={verdict?.improvisation ?? 0}
               creativity={verdict?.creativity ?? 0}
               confidence={verdict?.confidence ?? 0}
             />

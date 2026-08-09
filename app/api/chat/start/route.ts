@@ -1,6 +1,5 @@
 import { GoogleGenAI } from "@google/genai";
 import { NextResponse } from "next/server";
-// import { actions, objects } from "../../../data/scenarios";
 
 const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY!,
@@ -69,12 +68,6 @@ Rules:
 
 export async function POST() {
   try {
-    // const random = (arr: string[]) =>
-    //   arr[Math.floor(Math.random() * arr.length)];
-
-    // // const action = random(actions);
-    // // const object = random(objects);
-
     const interaction = await ai.interactions.create({
       model: "gemini-3.1-flash-lite",
 
