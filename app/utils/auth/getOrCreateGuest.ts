@@ -18,8 +18,8 @@ export default async function getOrCreateGuest(): Promise<GuestUser> {
   if (guestId) {
     const { data } = await supabase
       .from("users")
-      .select("id")
-      .eq("guest_id", guestId)
+      .select("is_guest")
+      .eq("user_id", guestId)
       .maybeSingle();
 
     if (data) {
@@ -28,7 +28,7 @@ export default async function getOrCreateGuest(): Promise<GuestUser> {
         .update({
           last_seen: new Date().toISOString(),
         })
-        .eq("guest_id", guestId);
+        .eq("user_id", guestId);
 
       return {
         guestId,
@@ -43,9 +43,10 @@ export default async function getOrCreateGuest(): Promise<GuestUser> {
   guestId = crypto.randomUUID();
 
   const { error } = await supabase.from("users").insert({
-    guest_id: guestId,
+    user_id: guestId,
     username: `Guest-${guestId.slice(0, 6)}`,
     is_guest: true,
+    games_remaining: 5,
     games_played: 0,
     highest_score: 0,
     last_seen: new Date().toISOString(),
