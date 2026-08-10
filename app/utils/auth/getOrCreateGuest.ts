@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { createClient } from "@/app/utils/supabase/server";
+import { supabase } from "@/app/utils/supabase/server";
 
 export interface GuestUser {
   guestId: string;
@@ -8,8 +8,6 @@ export interface GuestUser {
 
 export default async function getOrCreateGuest(): Promise<GuestUser> {
   const cookieStore = await cookies();
-  const supabase = await createClient(cookieStore);
-
   let guestId = cookieStore.get("guestId")?.value;
 
   // -----------------------------

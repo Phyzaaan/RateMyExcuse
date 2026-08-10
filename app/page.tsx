@@ -9,6 +9,11 @@ import FooterNote from "./components/FooterNote";
 import type { Verdict } from "./data/type";
 import { GlowBackground } from "./components/GlowBg";
 
+import {
+  setStoredGameCount,
+  getStoredGameCount,
+} from "./utils/libs/localStorage";
+
 export default function Home() {
   const [excuse, setExcuse] = useState("");
   const [submittedExcuse, setSubmittedExcuse] = useState("");
@@ -21,6 +26,14 @@ export default function Home() {
   const [startLoading, setStartLoading] = useState(true);
   const [gameCount, setGameCount] = useState(5);
   const [startError, setStartError] = useState<string | null>(null);
+
+  useEffect(() => {
+    getStoredGameCount(setGameCount);
+  }, []);
+
+  useEffect(() => {
+    setStoredGameCount(gameCount);
+  }, [gameCount]);
 
   useEffect(() => {
     if (submittedExcuse || verdict) return;
@@ -42,13 +55,9 @@ export default function Home() {
 
         const data = await res.json();
 
-        if (data.scenario) {
-          setScenario(data.scenario);
-        }
-
-        if (data.interactionId) {
-          setInteractionId(data.interactionId);
-        }
+        if (data.scenario) setScenario(data.scenario);
+        if (data.games_remaining) setGameCount(data.games_remaining);
+        if (data.interactionId) setInteractionId(data.interactionId);
       } catch (error) {
         console.error(error);
         setStartError("Unable to start the game. Please refresh.");

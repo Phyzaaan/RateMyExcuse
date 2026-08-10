@@ -1,5 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
 import { NextResponse } from "next/server";
+import getOrCreateGuest from "@/app/utils/auth/getOrCreateGuest";
+import { supabase } from "@/app/utils/supabase/server";
 
 const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY!,
@@ -68,6 +70,29 @@ Rules:
 
 export async function POST() {
   try {
+    const { guestId } = await getOrCreateGuest();
+
+    const { data: user, error } = await supabase
+      .from("users")
+      .select("games_remaining")
+      .eq("user_id", guestId)
+      .single();
+
+    if (error || !user) {
+      console.error(error);
+
+      return NextResponse.json({ error: error.message }, { status: 400 });
+    }
+
+    if (user.games_remaining <= 0) {
+      console.error(error);
+
+      return NextResponse.json(
+        { error: "You dont have any free games left" },
+        { status: 209 },
+      );
+    }
+
     const interaction = await ai.interactions.create({
       model: "gemini-3.1-flash-lite",
 
@@ -104,6 +129,7 @@ export async function POST() {
     });
 
     return NextResponse.json({
+      games_remaining: user.games_remaining,
       interactionId: interaction.id,
       ...JSON.parse(interaction.output_text ?? ""),
     });

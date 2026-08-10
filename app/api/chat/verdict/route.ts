@@ -1,5 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
 import { NextResponse } from "next/server";
+import getOrCreateGuest from "@/app/utils/auth/getOrCreateGuest";
+import { supabase } from "@/app/utils/supabase/server";
 
 const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY!,
@@ -108,6 +110,16 @@ Return ONLY valid JSON matching the provided schema.
 Do NOT use markdown.
 `;
 
+const updateGameCount = async () => {
+  const { guestId } = await getOrCreateGuest();
+
+  const { error } = await supabase.rpc("decrement_games", { user_id: guestId });
+
+  if (error) {
+    console.error(error.message);
+  }
+};
+
 export async function POST(req: Request) {
   try {
     const { interactionId, excuse } = await req.json();
@@ -125,6 +137,8 @@ export async function POST(req: Request) {
         schema: verdictSchema,
       },
     });
+
+    updateGameCount();
 
     const verdict = JSON.parse(interaction.output_text ?? "{}");
 
