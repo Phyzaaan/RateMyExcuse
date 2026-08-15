@@ -41,29 +41,25 @@ export default function Home() {
     async function startGame() {
       setStartLoading(true);
 
-      try {
-        const res = await fetch("/api/chat/start", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+      const res = await fetch("/api/chat/start", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-        if (!res.ok) {
-          throw new Error("Failed to start game");
-        }
+      const data = await res.json();
 
-        const data = await res.json();
-
-        if (data.scenario) setScenario(data.scenario);
-        if (data.games_remaining) setGameCount(data.games_remaining);
-        if (data.interactionId) setInteractionId(data.interactionId);
-      } catch (error) {
-        console.error(error);
-        setStartError("Unable to start the game. Please refresh.");
-      } finally {
-        setStartLoading(false);
+      if (!res.ok) {
+        console.log(data.error);
+        setStartError(data.error);
       }
+
+      if (data.scenario) setScenario(data.scenario);
+      if (data.games_remaining) setGameCount(data.games_remaining);
+      if (data.interactionId) setInteractionId(data.interactionId);
+
+      setStartLoading(false);
     }
 
     startGame();

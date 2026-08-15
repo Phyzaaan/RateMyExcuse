@@ -1,7 +1,8 @@
 import { GoogleGenAI } from "@google/genai";
 import { NextResponse } from "next/server";
 import getOrCreateGuest from "@/app/utils/auth/getOrCreateGuest";
-import { supabase } from "@/app/utils/supabase/server";
+import { supabaseAdmin } from "@/app/utils/supabase/admin";
+import getUserId from "@/app/utils/auth/getUserId";
 
 const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY!,
@@ -70,26 +71,31 @@ Rules:
 
 export async function POST() {
   try {
-    const { guestId } = await getOrCreateGuest();
+    let userId = await getUserId();
 
-    const { data: user, error } = await supabase
+    if (!userId) {
+      const { guestId } = await getOrCreateGuest();
+      userId = guestId;
+    }
+
+    const { data: user, error } = await supabaseAdmin
       .from("users")
-      .select("games_remaining")
-      .eq("user_id", guestId)
+      .select("games_remaining, username, avatar")
+      .eq("user_id", userId)
       .single();
 
-    if (error || !user) {
+    if (error) {
       console.error(error);
-
-      return NextResponse.json({ error: error.message }, { status: 400 });
+      return NextResponse.json(
+        { error: "Failed to retrieve account." },
+        { status: 500 },
+      );
     }
 
     if (user.games_remaining <= 0) {
-      console.error(error);
-
       return NextResponse.json(
-        { error: "You dont have any free games left" },
-        { status: 209 },
+        { error: "You don't have any free games left." },
+        { status: 429 },
       );
     }
 

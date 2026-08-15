@@ -1,7 +1,8 @@
 import { GoogleGenAI } from "@google/genai";
 import { NextResponse } from "next/server";
 import getOrCreateGuest from "@/app/utils/auth/getOrCreateGuest";
-import { supabase } from "@/app/utils/supabase/server";
+import { supabaseAdmin } from "@/app/utils/supabase/admin";
+import getUserId from "@/app/utils/auth/getUserId";
 
 const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY!,
@@ -111,9 +112,16 @@ Do NOT use markdown.
 `;
 
 const updateGameCount = async () => {
-  const { guestId } = await getOrCreateGuest();
+  let userId = await getUserId();
 
-  const { error } = await supabase.rpc("decrement_games", { user_id: guestId });
+  if (!userId) {
+    const { guestId } = await getOrCreateGuest();
+    userId = guestId;
+  }
+
+  const { error } = await supabaseAdmin.rpc("decrement_games", {
+    user_id: userId,
+  });
 
   if (error) {
     console.error(error.message);

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { supabase } from "../utils/supabase/client";
 import { ArrowLeft } from "lucide-react";
 import Image from "next/image";
@@ -17,12 +17,17 @@ export default function LoginPage() {
     setLoading(true);
     setMessage(null);
     try {
-      // Use magic link for both signup and login for simplicity
-      const { error } = await supabase.auth.signInWithOtp({ email });
+      const { error } = await supabase.auth.signInWithOtp({
+        email,
+        options: {
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
+        },
+      });
       if (error) throw error;
       setMessage("Check your inbox — a sign-in link was sent.");
-    } catch (e) {
-      setMessage("Unexpected error");
+    } catch (error) {
+      console.error("OTP sign-in error:", error);
+      setMessage("Unable to send the sign-in link. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -32,17 +37,23 @@ export default function LoginPage() {
     setLoading(true);
     setMessage(null);
     try {
-      const { error } = await supabase.auth.signInWithOAuth({ provider });
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider,
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+        },
+      });
       if (error) throw error;
-    } catch (e) {
-      setMessage("OAuth error");
+    } catch (error) {
+      console.error("OAuth sign-in error:", error);
+      setMessage("Unable to continue with OAuth. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen w-full flex items-start md:items-center justify-center p-4">
+    <div className="min-h-screen w-full flex items-start md:items-center justify-center gap-4 md:p-8 p-4 ">
       <div className="absolute top-4 left-4 md:top-6 md:left-6">
         <Link
           href="/"

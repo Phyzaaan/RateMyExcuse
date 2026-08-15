@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { supabase } from "@/app/utils/supabase/server";
+import { supabaseAdmin } from "../supabase/admin";
 
 export interface GuestUser {
   guestId: string;
@@ -14,22 +14,24 @@ export default async function getOrCreateGuest(): Promise<GuestUser> {
   // Existing Guest
   // -----------------------------
   if (guestId) {
-    const { data } = await supabase
+    const { data } = await supabaseAdmin
       .from("users")
       .select("is_guest")
       .eq("user_id", guestId)
       .maybeSingle();
 
     if (data) {
-      await supabase
+      const { error } = await supabaseAdmin
         .from("users")
         .update({
           last_seen: new Date().toISOString(),
         })
         .eq("user_id", guestId);
 
+      if (error) throw error;
+
       return {
-        guestId,
+        guestId: guestId,
         isNew: false,
       };
     }
@@ -40,7 +42,7 @@ export default async function getOrCreateGuest(): Promise<GuestUser> {
   // -----------------------------
   guestId = crypto.randomUUID();
 
-  const { error } = await supabase.from("users").insert({
+  const { error } = await supabaseAdmin.from("users").insert({
     user_id: guestId,
     username: `Guest-${guestId.slice(0, 6)}`,
     is_guest: true,
@@ -61,7 +63,7 @@ export default async function getOrCreateGuest(): Promise<GuestUser> {
   });
 
   return {
-    guestId,
+    guestId: guestId,
     isNew: true,
   };
 }
