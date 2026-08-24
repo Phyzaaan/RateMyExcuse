@@ -1,6 +1,11 @@
 import Image from "next/image";
 
-export default function HeroSection() {
+interface props {
+  username: string;
+  avatar: string;
+}
+
+export default function HeroSection({username, avatar}: props) {
   return (
     <section className="relative max-w-5xl w-full shrink-0 mx-auto overflow-hidden rounded-3xl p-4 sm:p-6">
       <div className="relative z-10 flex flex-col">
@@ -8,15 +13,15 @@ export default function HeroSection() {
           <div className="flex items-center gap-1 p-1 pr-2 rounded-3xl shadow-sm backdrop-blur-2xl bg-primary-bg/45 ring-1 ring-primary-color/30 hover:bg-slate-50 transition">
             <div className="relative h-12 w-12 overflow-hidden rounded-full border-2 border-white shadow-sm">
               <Image
-                src="/img/Phantom.jpeg"
-                alt="Avatar"
+                src={avatar}
+                alt="User Avatar"
                 width={100}
                 height={100}
                 className="object-cover"
               />
             </div>
             <div>
-              <p className="text-lg font-bold text-secondary">Phantom</p>
+              <p className="text-lg font-bold text-secondary">{username}</p>
             </div>
           </div>
         </div>

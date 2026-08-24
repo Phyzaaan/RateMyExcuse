@@ -33,7 +33,10 @@ export default function ResultSection({
         setDisplayScore(currentScore);
 
         if (currentScore < verdict.score) {
-          currentDelay = Math.min(100, currentDelay + Math.max(6, Math.floor(remaining / 10)));
+          currentDelay = Math.min(
+            100,
+            currentDelay + Math.max(6, Math.floor(remaining / 10)),
+          );
           tickScore();
         }
       }, currentDelay);
@@ -93,18 +96,14 @@ export default function ResultSection({
   return (
     <div
       className={`overflow-hidden grid transition-[max-height,opacity,transform] duration-300 ${
-        submittedExcuse
-          ? "max-h-175 opacity-100"
-          : "max-h-0 opacity-0"
+        submittedExcuse ? "max-h-175 opacity-100" : "max-h-0 opacity-0"
       }`}
     >
       <div className="flex flex-col gap-6 text-center  overflow-hidden min-h-0">
         <div className="flex flex-col items-center gap-6 text-center">
           <div
             className={`overflow-hidden transition-[max-height,opacity,transform] duration-300 ${
-              step > 0
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-3"
+              step > 0 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
             }`}
           >
             <div className="inline-flex items-center gap-3 text-8xl font-black text-primary overflow-hidden min-h-0">
@@ -120,14 +119,17 @@ export default function ResultSection({
 
           <div
             className={`overflow-hidden transition-[max-height,opacity,transform] duration-300 ${
-              step > 1
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-3"
+              step > 1 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
             }`}
           >
             <div className="flex items-center gap-3 overflow-hidden min-h-0">
               <div className="">
-                <Image src="/img/Doofus.png" alt="Emoji" width={80} height={80} />
+                <Image
+                  src="/img/Doofus.png"
+                  alt="Emoji"
+                  width={80}
+                  height={80}
+                />
               </div>
 
               <div className="relative w-xs sm:w-md md:w-lg lg:w-3xl bg-slate-100 text-primary px-2 py-2 rounded-3xl border-4 border-slate-600 font-bold shadow-md">
@@ -142,9 +144,7 @@ export default function ResultSection({
 
         <div
           className={`overflow-hidden transition-[max-height,opacity,transform] duration-300 ${
-            step > 2
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-3"
+            step > 2 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
           }`}
         >
           <div className="overflow-hidden min-h-0 ">
@@ -159,9 +159,7 @@ export default function ResultSection({
 
         <div
           className={`mt-6 flex justify-center overflow-hidden transition-[max-height,opacity,transform] duration-300 ${
-            step > 3
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-3"
+            step > 3 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
           }`}
         >
           {submittedExcuse && (

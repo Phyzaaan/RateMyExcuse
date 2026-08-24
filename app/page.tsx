@@ -6,12 +6,14 @@ import SituationPanel from "./components/SituationPanel";
 import ActionPanel from "./components/ActionPanel";
 import CommunityFeed from "./components/CommunityFeed";
 import FooterNote from "./components/FooterNote";
+import AdPopup from "./components/AdPopup";
+import FakeAd from "./components/FakeAd";
 import type { Verdict } from "./data/type";
 import { GlowBackground } from "./components/GlowBg";
 
 import {
-  setStoredGameCount,
-  getStoredGameCount,
+  setStoredUserData,
+  getStoredUserData,
 } from "./utils/libs/localStorage";
 
 export default function Home() {
@@ -24,21 +26,32 @@ export default function Home() {
   const [verdict, setVerdict] = useState<Verdict | null>(null);
   const [loading, setLoading] = useState(false);
   const [startLoading, setStartLoading] = useState(true);
-  const [gameCount, setGameCount] = useState(5);
   const [startError, setStartError] = useState<string | null>(null);
 
+  const [gameCount, setGameCount] = useState(5);
+  const [username, setUsername] = useState("Unknown");
+  const [avatar, setAvatar] = useState("/img/user.jpg");
+  const [showFakeAd, setShowFakeAd] = useState(false);
+  const [showAd, setShowAd] = useState(false);
+
   useEffect(() => {
-    getStoredGameCount(setGameCount);
+    getStoredUserData(setGameCount, setUsername, setAvatar);
   }, []);
 
   useEffect(() => {
-    setStoredGameCount(gameCount);
-  }, [gameCount]);
+    setStoredUserData(gameCount, username, avatar);
+  }, [gameCount, username, avatar]);
 
   useEffect(() => {
     if (submittedExcuse || verdict) return;
 
     async function startGame() {
+      if (gameCount < 1) {
+        setStartError("You don't have any free games left.");
+        setShowAd(true);
+        return;
+      }
+
       setStartLoading(true);
 
       const res = await fetch("/api/chat/start", {
@@ -58,18 +71,46 @@ export default function Home() {
       if (data.scenario) setScenario(data.scenario);
       if (data.games_remaining) setGameCount(data.games_remaining);
       if (data.interactionId) setInteractionId(data.interactionId);
+      if (data.username) setUsername(data.username);
+      if (data.avatar) setAvatar(data.avatar);
 
       setStartLoading(false);
     }
 
     startGame();
-  }, [submittedExcuse, verdict]);
+  }, [submittedExcuse, verdict, gameCount]);
 
   function handleReset() {
+    if (gameCount < 1) {
+      setShowAd(true);
+      return;
+    }
     setExcuse("");
     setSubmittedExcuse("");
     setVerdict(null);
     setLoading(false);
+  }
+
+  function handleWatchAd() {
+    setShowAd(false);
+    setShowFakeAd(true);
+  }
+
+  function handleCloseAdPopup() {
+    setShowAd(false);
+  }
+
+  async function handleAdReward() {
+    const res = await fetch("/api/reward-ad", {
+      method: "POST",
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      setGameCount(data.games_remaining);
+    }
+
+    setShowFakeAd(false);
   }
 
   async function handleSubmit() {
@@ -115,7 +156,20 @@ export default function Home() {
     <main className="flex flex-col items-center max-w-5xl w-full min-h-screen text-primary gap-10">
       <GlowBackground className="fixed max-w-5xl w-full inset-y-0 -z-10" />
 
-      <HeroSection />
+      {gameCount === 0 && showAd && (
+        <AdPopup onWatch={handleWatchAd} onClose={handleCloseAdPopup} />
+      )}
+
+      {showFakeAd && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="absolute inset-0 bg-black opacity-40" />
+          <div className="relative z-50 w-full max-w-md p-4">
+            <FakeAd onComplete={handleAdReward} />
+          </div>
+        </div>
+      )}
+
+      <HeroSection username={username} avatar={avatar} />
 
       <SituationPanel
         startError={startError}

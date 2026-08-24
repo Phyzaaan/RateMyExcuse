@@ -37,17 +37,17 @@ export default function SituationPanel({
               <h2 className="text-3xl font-black tracking-tight text-primary font-baloo2">
                 Mission
               </h2>
-              <p className="text-lg text-secondary font-bold leading-7">
-                {startLoading ? "Fetching a mission for you..." : scenario}
-              </p>
+              {startError ? (
+                <div className="text-lg px-2 py-1 text-red-700">
+                  {startError}
+                </div>
+              ) : (
+                <p className="text-lg text-secondary font-bold leading-7">
+                  {startLoading ? "Fetching a mission for you..." : scenario}
+                </p>
+              )}
             </div>
           </div>
-
-          {startError ? (
-            <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-              {startError}
-            </div>
-          ) : null}
 
           <div
             className="grid transition-all duration-300 ease-in-out grid-rows-[1fr] aria-hidden:grid-rows-[0fr] opacity-100 aria-hidden:opacity-0"

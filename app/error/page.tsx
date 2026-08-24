@@ -20,7 +20,7 @@ export default async function ErrorPage({
 
   return (
     <main className="flex min-h-screen w-full items-center justify-center p-6">
-      <div className="glass-panel w-full max-w-xl rounded-3xl p-8 shadow-lg">
+      <div className="glass-panel w-full max-w-3xl rounded-3xl p-8 shadow-lg">
         <div className="mb-6 inline-flex rounded-full border border-red-200 bg-red-50 px-3 py-1 text-sm font-medium text-red-700">
           Authentication error
         </div>

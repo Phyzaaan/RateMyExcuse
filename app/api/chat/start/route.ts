@@ -136,6 +136,8 @@ export async function POST() {
 
     return NextResponse.json({
       games_remaining: user.games_remaining,
+      username: user.username,
+      avatar: user.avatar,
       interactionId: interaction.id,
       ...JSON.parse(interaction.output_text ?? ""),
     });
