@@ -19,6 +19,17 @@ const verdictSchema = {
     reaction: {
       type: "string",
     },
+    mascotReaction: {
+      type: "string",
+      enum: [
+        "happy",
+        "curious",
+        "winking",
+        "disappointed",
+        "annoyed",
+        "assertive",
+      ],
+    },
     improvisation: {
       type: "integer",
       minimum: 0,
@@ -35,7 +46,14 @@ const verdictSchema = {
       maximum: 10,
     },
   },
-  required: ["score", "reaction", "improvisation", "creativity", "confidence"],
+  required: [
+    "score",
+    "reaction",
+    "mascotReaction",
+    "improvisation",
+    "creativity",
+    "confidence",
+  ],
 };
 
 const verdictPrompt = `
@@ -106,6 +124,35 @@ Requirements:
 - NEVER mention scoring criteria.
 - NEVER explain your reasoning.
 - Stay completely in character.
+
+Mascot Reaction:
+Choose EXACTLY ONE mascot reaction from the following:
+
+- happy
+  Use when the player performs well and Goofy is pleased, amused, or impressed.
+
+- curious
+  Use when the excuse is strange, unexpected, confusing, or makes Goofy curious about what happens next.
+
+- winking
+  Use when the player is clever, sneaky, witty, or delivers a particularly slick excuse.
+
+- disappointed
+  Use when the player's performance is weak, boring, unconvincing, or falls apart.
+
+- annoyed
+  Use when the player frustrates Goofy, repeatedly gives poor answers, or makes questionable choices.
+
+- assertive
+  Use when the player confidently stands their ground, strongly defends their excuse, or handles Goofy's challenges with confidence.
+
+Requirements:
+- Return EXACTLY ONE of these values.
+- Use lowercase.
+- Do NOT write a sentence.
+- Do NOT use this field for the written Goofy reaction.
+- The "reaction" field remains the short written Goofy reaction.
+- "mascotReaction" ONLY determines which mascot expression should be displayed.
 
 Return ONLY valid JSON matching the provided schema.
 Do NOT use markdown.

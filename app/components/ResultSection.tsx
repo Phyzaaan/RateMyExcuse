@@ -125,7 +125,7 @@ export default function ResultSection({
             <div className="flex items-center gap-3 overflow-hidden min-h-0">
               <div className="">
                 <Image
-                  src="/img/Doofus.png"
+                  src={`/img/${verdict?.mascotReaction}.png`}
                   alt="Emoji"
                   width={80}
                   height={80}

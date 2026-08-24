@@ -5,7 +5,7 @@ export type Message = {
 
 export type Verdict = {
   score: number;
-  emoji: string;
+  mascotReaction: string;
   reaction: string;
   improvisation: number;
   creativity: number;
