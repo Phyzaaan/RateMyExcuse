@@ -25,7 +25,6 @@ export default function Home() {
   const [interactionId, setInteractionId] = useState("");
   const [verdict, setVerdict] = useState<Verdict | null>(null);
   const [loading, setLoading] = useState(false);
-  const [startLoading, setStartLoading] = useState(true);
   const [startError, setStartError] = useState<string | null>(null);
 
   const [gameCount, setGameCount] = useState(5);
@@ -46,14 +45,6 @@ export default function Home() {
     if (submittedExcuse || verdict) return;
 
     async function startGame() {
-      if (gameCount < 1) {
-        setStartError("You don't have any free games left.");
-        setShowAd(true);
-        return;
-      }
-
-      setStartLoading(true);
-
       const res = await fetch("/api/chat/start", {
         method: "POST",
         headers: {
@@ -69,16 +60,35 @@ export default function Home() {
       }
 
       if (data.scenario) setScenario(data.scenario);
-      if (data.games_remaining) setGameCount(data.games_remaining);
       if (data.interactionId) setInteractionId(data.interactionId);
-      if (data.username) setUsername(data.username);
-      if (data.avatar) setAvatar(data.avatar);
-
-      setStartLoading(false);
     }
 
     startGame();
-  }, [submittedExcuse, verdict, gameCount]);
+  }, [submittedExcuse, verdict]);
+
+  useEffect(() => {
+    async function getUserData() {
+      const res = await fetch("/api/getUserData", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        console.log(data.error);
+        // setStartError(data.error);
+      }
+
+      if (data.games_remaining) setGameCount(data.games_remaining);
+      if (data.username) setUsername(data.username);
+      if (data.avatar) setAvatar(data.avatar);
+    }
+
+    getUserData();
+  }, [gameCount]);
 
   function handleReset() {
     if (gameCount < 1) {
@@ -116,6 +126,11 @@ export default function Home() {
   async function handleSubmit() {
     const text = excuse.trim();
     if (!text) return;
+
+    if (gameCount < 1) {
+      setShowAd(true);
+      return;
+    }
 
     setLoading(true);
     setStartError(null);
@@ -173,7 +188,6 @@ export default function Home() {
 
       <SituationPanel
         startError={startError}
-        startLoading={startLoading}
         scenario={scenario}
         excuse={excuse}
         submittedExcuse={submittedExcuse}

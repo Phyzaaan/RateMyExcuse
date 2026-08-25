@@ -1,8 +1,5 @@
 import { GoogleGenAI } from "@google/genai";
 import { NextResponse } from "next/server";
-import getOrCreateGuest from "@/app/utils/auth/getOrCreateGuest";
-import { supabaseAdmin } from "@/app/utils/supabase/admin";
-import getUserId from "@/app/utils/auth/getUserId";
 
 const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY!,
@@ -71,33 +68,6 @@ Rules:
 
 export async function POST() {
   try {
-    let userId = await getUserId();
-
-    if (!userId) {
-      const { guestId } = await getOrCreateGuest();
-      userId = guestId;
-    }
-
-    const { data: user, error } = await supabaseAdmin
-      .from("users")
-      .select("games_remaining, username, avatar")
-      .eq("user_id", userId)
-      .single();
-
-    if (error) {
-      console.error(error);
-      return NextResponse.json(
-        { error: "Failed to retrieve account." },
-        { status: 500 },
-      );
-    }
-
-    if (user.games_remaining <= 0) {
-      return NextResponse.json(
-        { error: "You don't have any free games left." },
-        { status: 429 },
-      );
-    }
 
     const interaction = await ai.interactions.create({
       model: "gemini-3.1-flash-lite",
@@ -135,9 +105,6 @@ export async function POST() {
     });
 
     return NextResponse.json({
-      games_remaining: user.games_remaining,
-      username: user.username,
-      avatar: user.avatar,
       interactionId: interaction.id,
       ...JSON.parse(interaction.output_text ?? ""),
     });

@@ -4,7 +4,6 @@ import { MessageCircleMore } from "lucide-react";
 
 interface SituationPanelProps {
   startError: string | null;
-  startLoading: boolean;
   scenario: string;
   excuse: string;
   submittedExcuse: string;
@@ -25,7 +24,6 @@ export default function SituationPanel({
   verdict,
   onReset,
   startError,
-  startLoading,
 }: SituationPanelProps) {
   return (
     <section className="max-w-5xl w-full mx-auto px-4">
@@ -43,7 +41,7 @@ export default function SituationPanel({
                 </div>
               ) : (
                 <p className="text-lg text-secondary font-bold leading-7">
-                  {startLoading ? "Fetching a mission for you..." : scenario}
+                  {scenario}
                 </p>
               )}
             </div>
