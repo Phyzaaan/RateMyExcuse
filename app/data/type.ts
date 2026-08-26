@@ -11,3 +11,13 @@ export type Verdict = {
   creativity: number;
   confidence: number;
 };
+export type Post = {
+  user_id: string;
+  name: string;
+  avatar: string;
+  scenario: string;
+  excuse: string;
+  score: number;
+  likes: string;
+  color: string;
+};

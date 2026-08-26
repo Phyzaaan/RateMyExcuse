@@ -10,6 +10,7 @@ interface ResultSectionProps {
   onReset: () => void;
   onShare: () => Promise<void> | void;
   isSharing?: boolean;
+  isPublished?: boolean;
 }
 
 export default function ResultSection({
@@ -18,6 +19,7 @@ export default function ResultSection({
   onReset,
   onShare,
   isSharing = false,
+  isPublished = false,
 }: ResultSectionProps) {
   const [displayScore, setDisplayScore] = useState(0);
   const [step, setStep] = useState(0);
@@ -180,7 +182,7 @@ export default function ResultSection({
             <button
               type="button"
               onClick={onShare}
-              disabled={isSharing}
+              disabled={isPublished ? isPublished : isSharing}
               aria-label="Share excuse"
               className="md:absolute md:right-1 inline-flex h-14 w-14 px-2 hover:w-34 group gap-2 items-center justify-center rounded-2xl border border-slate-300 bg-white text-slate-700 shadow-sm transition-all hover:-translate-y-0.5 hover:border-slate-400 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
             >
@@ -188,8 +190,10 @@ export default function ResultSection({
                 <span className="h-4 w-4 animate-spin rounded-full border-2 border-slate-400 border-t-transparent" />
               ) : (
                 <>
-                <Share className="h-5 w-5 block group-hover:hidden" />
-                <span className="text-md hidden group-hover:block">Make Public</span>
+                  <Share className="h-5 w-5 block group-hover:hidden" />
+                  <span className="text-md hidden group-hover:block">
+                    {isPublished ? "Publised" : "Make Public"}
+                  </span>
                 </>
               )}
             </button>

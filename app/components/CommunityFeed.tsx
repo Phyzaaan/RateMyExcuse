@@ -3,59 +3,9 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, Users } from "lucide-react";
+import { Post } from "../data/type";
 
-const feed = [
-  {
-    name: "PenguinLover42",
-    scenario:
-      "Convince your teacher why you showed up to history class in a dinosaur costume.",
-    excuse:
-      "You told us to prepare for the 'Jurassic' period lesson, So... I came dressed as a dinosaur to fully immerse myself in the experience.",
-    score: 86,
-    hearts: "1.2K",
-    avatar: "/img/user.jpg",
-    color: "from-fuchsia-500 to-pink-500",
-  },
-  {
-    name: "HomeworkHater",
-    scenario: "Explain why you didn't do your homework.",
-    excuse:
-      "I was simply doing what you told me to do: I was following the instructions to 'be creative' and 'think outside the box.' So, I thought, why not think outside the homework box and not do it at all?",
-    score: 74,
-    hearts: "892",
-    avatar: "/img/teacher.png",
-    color: "from-sky-500 to-cyan-500",
-  },
-  {
-    name: "ByteMe",
-    scenario: "I accidentally erased the school database.",
-    excuse: "I thought 'delete' meant 'download'.",
-    score: 61,
-    hearts: "643",
-    avatar: "/img/boss.png",
-    color: "from-amber-500 to-orange-500",
-  },
-  {
-    name: "DarkRoast",
-    scenario: "I summoned a demon instead of Alexa.",
-    excuse: "The instructions were unclear!",
-    score: 91,
-    hearts: "2.1K",
-    avatar: "/img/user.jpg",
-    color: "from-emerald-500 to-teal-500",
-  },
-  {
-    name: "SnoozeKing",
-    scenario: "I slept through my final exam.",
-    excuse: "My alarm clock took a vacation.",
-    score: 79,
-    hearts: "1.1K",
-    avatar: "/img/teacher.png",
-    color: "from-purple-500 to-violet-500",
-  },
-];
-
-export default function CommunityFeed() {
+export default function CommunityFeed({ posts }: { posts: Post[] }) {
   const carouselRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
@@ -128,7 +78,7 @@ export default function CommunityFeed() {
             onScroll={checkScrollState}
             className="flex carousel-mask gap-3 sm:gap-4 overflow-x-auto snap-x snap-mandatory py-3 px-1 sm:px-2 scroll-smooth"
           >
-            {feed.map((item, index) => (
+            {posts.map((item, index) => (
               <div
                 key={index}
                 className="relative flex w-64 shrink-0 snap-start flex-col justify-between rounded-2xl border border-slate-200/70 bg-primary-bg/70 backdrop-blur-md p-4 sm:p-5 pt-6 hover:shadow-sm hover:-translate-y-0.5 transition-all"
@@ -178,7 +128,7 @@ export default function CommunityFeed() {
 
                   <div className="flex items-center gap-1 text-xs font-bold text-primary shrink-0">
                     <span className="text-pink-500">❤️</span>
-                    <span>{item.hearts}</span>
+                    <span>{item.likes}</span>
                   </div>
                 </div>
 

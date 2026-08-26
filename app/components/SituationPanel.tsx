@@ -14,6 +14,7 @@ interface SituationPanelProps {
   onReset: () => void;
   onShare: () => Promise<void> | void;
   isSharing?: boolean;
+  isPublished?: boolean;
 }
 
 export default function SituationPanel({
@@ -28,6 +29,7 @@ export default function SituationPanel({
   startError,
   onShare,
   isSharing = false,
+  isPublished = false,
 }: SituationPanelProps) {
   return (
     <section className="max-w-5xl w-full mx-auto px-4">
@@ -92,6 +94,7 @@ export default function SituationPanel({
               onReset={onReset}
               onShare={onShare}
               isSharing={isSharing}
+              isPublished={isPublished}
             />
           </div>
 

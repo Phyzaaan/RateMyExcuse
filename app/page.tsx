@@ -11,6 +11,8 @@ import FakeAd from "./components/FakeAd";
 import type { Verdict } from "./data/type";
 import { GlowBackground } from "./components/GlowBg";
 import ToastMessage from "./components/ToastMessage";
+import { fetchCommunityPosts } from "./utils/libs/fetchPosts";
+import { Post } from "./data/type";
 
 import {
   setStoredUserData,
@@ -33,11 +35,21 @@ export default function Home() {
   const [avatar, setAvatar] = useState("/img/user.jpg");
   const [showFakeAd, setShowFakeAd] = useState(false);
   const [showAd, setShowAd] = useState(false);
-  const [toast, setToast] = useState<{ message: string; success: boolean } | null>(null);
+  const [toast, setToast] = useState<{
+    message: string;
+    success: boolean;
+  } | null>(null);
   const [isSharing, setIsSharing] = useState(false);
+  const [isPublished, setIsPublished] = useState(false);
+  const [posts, setPosts] = useState<Post[] | null>(null);
 
   useEffect(() => {
     getStoredUserData(setGameCount, setUsername, setAvatar);
+
+    (async function fetchPosts() {
+      const data = await fetchCommunityPosts(10);
+      setPosts(data);
+    })();
   }, []);
 
   useEffect(() => {
@@ -199,10 +211,12 @@ export default function Home() {
       }
 
       setToast({ message: "Excuse shared successfully!", success: true });
+      setIsPublished(true);
     } catch (error) {
       console.error(error);
       setToast({
-        message: error instanceof Error ? error.message : "Unable to share excuse.",
+        message:
+          error instanceof Error ? error.message : "Unable to share excuse.",
         success: false,
       });
     } finally {
@@ -241,10 +255,11 @@ export default function Home() {
         onReset={handleReset}
         onShare={handleShare}
         isSharing={isSharing}
+        isPublished={isPublished}
       />
 
       <ActionPanel freeGames={gameCount} />
-      <CommunityFeed />
+      {posts && <CommunityFeed posts={posts} />}
       <FooterNote />
 
       {toast && (
