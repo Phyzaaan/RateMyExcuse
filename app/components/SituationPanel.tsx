@@ -12,6 +12,8 @@ interface SituationPanelProps {
   onSubmit: () => void;
   verdict: Verdict | null;
   onReset: () => void;
+  onShare: () => Promise<void> | void;
+  isSharing?: boolean;
 }
 
 export default function SituationPanel({
@@ -24,6 +26,8 @@ export default function SituationPanel({
   verdict,
   onReset,
   startError,
+  onShare,
+  isSharing = false,
 }: SituationPanelProps) {
   return (
     <section className="max-w-5xl w-full mx-auto px-4">
@@ -86,6 +90,8 @@ export default function SituationPanel({
               submittedExcuse={submittedExcuse}
               verdict={verdict}
               onReset={onReset}
+              onShare={onShare}
+              isSharing={isSharing}
             />
           </div>
 

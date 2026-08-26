@@ -2,17 +2,22 @@ import ScoreBar from "./ScoreBar";
 import type { Verdict } from "../data/type";
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import { Share } from "lucide-react";
 
 interface ResultSectionProps {
   submittedExcuse: string;
   verdict: Verdict | null;
   onReset: () => void;
+  onShare: () => Promise<void> | void;
+  isSharing?: boolean;
 }
 
 export default function ResultSection({
   submittedExcuse,
   verdict,
   onReset,
+  onShare,
+  isSharing = false,
 }: ResultSectionProps) {
   const [displayScore, setDisplayScore] = useState(0);
   const [step, setStep] = useState(0);
@@ -99,8 +104,8 @@ export default function ResultSection({
         submittedExcuse ? "max-h-175 opacity-100" : "max-h-0 opacity-0"
       }`}
     >
-      <div className="flex flex-col gap-6 text-center  overflow-hidden min-h-0">
-        <div className="flex flex-col items-center gap-6 text-center">
+      <div className="flex flex-col text-center overflow-hidden min-h-0">
+        <div className="flex flex-col items-center gap-4 text-center">
           <div
             className={`overflow-hidden transition-[max-height,opacity,transform] duration-300 ${
               step > 0 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
@@ -158,7 +163,7 @@ export default function ResultSection({
         </div>
 
         <div
-          className={`mt-6 flex justify-center overflow-hidden transition-[max-height,opacity,transform] duration-300 ${
+          className={`py-1 flex justify-center items-center gap-2 overflow-hidden transition-[max-height,opacity,transform] duration-300 ${
             step > 3 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
           }`}
         >
@@ -169,6 +174,24 @@ export default function ResultSection({
               className="inline-flex w-full max-w-xl items-center justify-center rounded-2xl bg-linear-to-r from-violet-500 via-indigo-500 to-blue-500 px-8 py-4 text-xl font-black text-white shadow-[0_16px_40px_rgba(63, 81, 181,0.32)] transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60"
             >
               Try Another Excuse
+            </button>
+          )}
+          {submittedExcuse && (
+            <button
+              type="button"
+              onClick={onShare}
+              disabled={isSharing}
+              aria-label="Share excuse"
+              className="md:absolute md:right-1 inline-flex h-14 w-14 px-2 hover:w-34 group gap-2 items-center justify-center rounded-2xl border border-slate-300 bg-white text-slate-700 shadow-sm transition-all hover:-translate-y-0.5 hover:border-slate-400 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {isSharing ? (
+                <span className="h-4 w-4 animate-spin rounded-full border-2 border-slate-400 border-t-transparent" />
+              ) : (
+                <>
+                <Share className="h-5 w-5 block group-hover:hidden" />
+                <span className="text-md hidden group-hover:block">Make Public</span>
+                </>
+              )}
             </button>
           )}
         </div>

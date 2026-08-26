@@ -10,6 +10,7 @@ import AdPopup from "./components/AdPopup";
 import FakeAd from "./components/FakeAd";
 import type { Verdict } from "./data/type";
 import { GlowBackground } from "./components/GlowBg";
+import ToastMessage from "./components/ToastMessage";
 
 import {
   setStoredUserData,
@@ -32,6 +33,8 @@ export default function Home() {
   const [avatar, setAvatar] = useState("/img/user.jpg");
   const [showFakeAd, setShowFakeAd] = useState(false);
   const [showAd, setShowAd] = useState(false);
+  const [toast, setToast] = useState<{ message: string; success: boolean } | null>(null);
+  const [isSharing, setIsSharing] = useState(false);
 
   useEffect(() => {
     getStoredUserData(setGameCount, setUsername, setAvatar);
@@ -167,6 +170,46 @@ export default function Home() {
     }
   }
 
+  async function handleShare() {
+    if (!submittedExcuse || !scenario || !verdict) {
+      setToast({ message: "No excuse to share yet.", success: false });
+      return;
+    }
+
+    const totalScore = verdict.score;
+    setIsSharing(true);
+
+    try {
+      const res = await fetch("/api/community/public", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          excuse: submittedExcuse,
+          scenario,
+          totalScore,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || data.error) {
+        throw new Error(data.error || "Failed to share your excuse.");
+      }
+
+      setToast({ message: "Excuse shared successfully!", success: true });
+    } catch (error) {
+      console.error(error);
+      setToast({
+        message: error instanceof Error ? error.message : "Unable to share excuse.",
+        success: false,
+      });
+    } finally {
+      setIsSharing(false);
+    }
+  }
+
   return (
     <main className="flex flex-col items-center max-w-5xl w-full min-h-screen text-primary gap-10">
       <GlowBackground className="fixed max-w-5xl w-full inset-y-0 -z-10" />
@@ -196,11 +239,21 @@ export default function Home() {
         onSubmit={handleSubmit}
         verdict={verdict}
         onReset={handleReset}
+        onShare={handleShare}
+        isSharing={isSharing}
       />
 
       <ActionPanel freeGames={gameCount} />
       <CommunityFeed />
       <FooterNote />
+
+      {toast && (
+        <ToastMessage
+          message={toast.message}
+          success={toast.success}
+          onClose={() => setToast(null)}
+        />
+      )}
     </main>
   );
 }
