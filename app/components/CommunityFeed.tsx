@@ -1,14 +1,28 @@
 "use client";
 
 import { useRef, useState, useEffect, useCallback } from "react";
-import Image from "next/image";
 import { ChevronLeft, ChevronRight, Users } from "lucide-react";
 import { Post } from "../data/type";
+import PostCard from "./CommunityPostCard";
+import { fetchCommunityPosts } from "../utils/libs/supabase";
 
-export default function CommunityFeed({ posts }: { posts: Post[] }) {
+import PostCardSkeleton from "./Skeleton/CommunityPostCard";
+
+export default function CommunityFeed() {
   const carouselRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+  const [posts, setPosts] = useState<Post[] | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    (async function fetchPosts() {
+      setLoading(true);
+      const data = await fetchCommunityPosts(10);
+      setPosts(data);
+      setLoading(false);
+    })();
+  }, []);
 
   // Check scroll positions to show/hide arrows dynamically
   const checkScrollState = useCallback(() => {
@@ -78,66 +92,11 @@ export default function CommunityFeed({ posts }: { posts: Post[] }) {
             onScroll={checkScrollState}
             className="flex carousel-mask gap-3 sm:gap-4 overflow-x-auto snap-x snap-mandatory py-3 px-1 sm:px-2 scroll-smooth"
           >
-            {posts.map((item, index) => (
-              <div
-                key={index}
-                className="relative flex w-64 shrink-0 snap-start flex-col justify-between rounded-2xl border border-slate-200/70 bg-primary-bg/70 backdrop-blur-md p-4 sm:p-5 pt-6 hover:shadow-sm hover:-translate-y-0.5 transition-all"
-              >
-                {/* Content Top */}
-                <div className="w-full h-full flex flex-col gap-2">
-                  {/* Scenario Tag */}
-                  <div>
-                    <span className="text-xs font-extrabold text-primary">
-                      🎯 Mission
-                    </span>
-                    <h4 className="text-sm sm:text-base min-h-14 font-bold text-primary leading-snug line-clamp-3">
-                      {item.scenario}
-                    </h4>
-                  </div>
-
-                  {/* Excuse Tag */}
-                  <div>
-                    <span className="text-xs font-semibold text-primary">
-                      💬 Excuse
-                    </span>
-                    <p className="text-xs sm:text-sm font-medium text-secondary leading-relaxed line-clamp-4">
-                      &quot;{item.excuse}&quot;
-                    </p>
-                  </div>
-                </div>
-
-                <div className="pb-2">
-                  <div className="border border-slate-300" />
-                </div>
-
-                {/* Content Bottom Row */}
-                <div className="mt-6 sm:mt-8 flex items-center justify-between">
-                  <div className="flex items-center gap-2 min-w-0 pr-10">
-                    <div className="relative h-7 w-7 shrink-0 overflow-hidden rounded-full border border-slate-200">
-                      <Image
-                        src={item.avatar}
-                        alt={item.name}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                    <span className="text-xs font-bold text-primary truncate">
-                      {item.name}
-                    </span>
-                  </div>
-
-                  <div className="flex items-center gap-1 text-xs font-bold text-primary shrink-0">
-                    <span className="text-pink-500">❤️</span>
-                    <span>{item.likes}</span>
-                  </div>
-                </div>
-
-                {/* Floating Score Box */}
-                <div className="absolute -right-2 -top-2 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-primary-bg shadow-md shadow-slate-200/50 border border-slate-100 text-lg sm:text-xl font-black text-emerald-500">
-                  {item.score}
-                </div>
-              </div>
-            ))}
+            {loading
+              ? Array.from({ length: 5 }).map((_, i) => (
+                  <PostCardSkeleton key={i} />
+                ))
+              : posts?.map((post) => <PostCard key={post.id} item={post} />)}
           </div>
 
           {/* Right / Next Slide Button */}

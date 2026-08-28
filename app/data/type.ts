@@ -12,6 +12,7 @@ export type Verdict = {
   confidence: number;
 };
 export type Post = {
+  id: number;
   user_id: string;
   name: string;
   avatar: string;
@@ -19,5 +20,5 @@ export type Post = {
   excuse: string;
   score: number;
   likes: string;
-  color: string;
+  isLiked: boolean;
 };

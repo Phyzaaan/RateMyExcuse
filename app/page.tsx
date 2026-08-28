@@ -11,8 +11,6 @@ import FakeAd from "./components/FakeAd";
 import type { Verdict } from "./data/type";
 import { GlowBackground } from "./components/GlowBg";
 import ToastMessage from "./components/ToastMessage";
-import { fetchCommunityPosts } from "./utils/libs/fetchPosts";
-import { Post } from "./data/type";
 
 import {
   setStoredUserData,
@@ -41,15 +39,9 @@ export default function Home() {
   } | null>(null);
   const [isSharing, setIsSharing] = useState(false);
   const [isPublished, setIsPublished] = useState(false);
-  const [posts, setPosts] = useState<Post[] | null>(null);
 
   useEffect(() => {
     getStoredUserData(setGameCount, setUsername, setAvatar);
-
-    (async function fetchPosts() {
-      const data = await fetchCommunityPosts(10);
-      setPosts(data);
-    })();
   }, []);
 
   useEffect(() => {
@@ -259,7 +251,7 @@ export default function Home() {
       />
 
       <ActionPanel freeGames={gameCount} />
-      {posts && <CommunityFeed posts={posts} />}
+      <CommunityFeed />
       <FooterNote />
 
       {toast && (
