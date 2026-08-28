@@ -42,7 +42,7 @@ export async function fetchCommunityPosts(limit: number) {
     const likeCount = Array.isArray(post.likes)
       ? (post.likes[0]?.count ?? 0)
       : 0;
-      
+
     return {
       id: post.id,
       user_id: post.user_id,
@@ -62,14 +62,20 @@ export async function likePost(postId: number) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) throw new Error("You must be logged in to like a post.");
+  if (!user) {
+    console.error("You must be logged in to like a post.");
+    return "You must be logged in to like a post.";
+  }
 
   const { error } = await supabase.from("likes").insert({
     user_id: user.id,
     post_id: postId,
   });
 
-  if (error) throw error;
+  if (error) {
+    console.error(error);
+    return error?.message;
+  }
 }
 
 export async function unlikePost(postId: number) {
@@ -77,7 +83,10 @@ export async function unlikePost(postId: number) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) throw new Error("You must be logged in to unlike a post.");
+  if (!user) {
+    console.error("You must be logged in to unlike a post.");
+    return "You must be logged in to unlike a post.";
+  }
 
   const { error } = await supabase
     .from("likes")
@@ -85,5 +94,8 @@ export async function unlikePost(postId: number) {
     .eq("user_id", user.id)
     .eq("post_id", postId);
 
-  if (error) throw error;
+  if (error) {
+    console.error(error);
+    return error?.message;
+  }
 }

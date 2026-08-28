@@ -8,7 +8,16 @@ import { fetchCommunityPosts } from "../utils/libs/supabase";
 
 import PostCardSkeleton from "./Skeleton/CommunityPostCard";
 
-export default function CommunityFeed() {
+interface props {
+  setToast: (
+    value: {
+      message: string;
+      success: boolean;
+    } | null,
+  ) => void;
+}
+
+export default function CommunityFeed({ setToast }: props) {
   const carouselRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
@@ -96,7 +105,7 @@ export default function CommunityFeed() {
               ? Array.from({ length: 5 }).map((_, i) => (
                   <PostCardSkeleton key={i} />
                 ))
-              : posts?.map((post) => <PostCard key={post.id} item={post} />)}
+              : posts?.map((post) => <PostCard key={post.id} item={post} setToast={setToast} />)}
           </div>
 
           {/* Right / Next Slide Button */}

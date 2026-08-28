@@ -251,7 +251,7 @@ export default function Home() {
       />
 
       <ActionPanel freeGames={gameCount} />
-      <CommunityFeed />
+      <CommunityFeed setToast={setToast} />
       <FooterNote />
 
       {toast && (

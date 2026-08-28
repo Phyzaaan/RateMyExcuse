@@ -15,9 +15,15 @@ type PostCardProps = {
     likes: string;
     isLiked: boolean;
   };
+  setToast: (
+    value: {
+      message: string;
+      success: boolean;
+    } | null,
+  ) => void;
 };
 
-export default function PostCard({ item }: PostCardProps) {
+export default function PostCard({ item, setToast }: PostCardProps) {
   const [liked, setLiked] = useState(item.isLiked);
   const [likeCount, setLikeCount] = useState(Number(item.likes));
   const [loading, setLoading] = useState(false);
@@ -29,18 +35,36 @@ export default function PostCard({ item }: PostCardProps) {
 
     try {
       if (liked) {
-        await unlikePost(item.id);
+        const error = await unlikePost(item.id);
+        if (error) {
+          setToast({
+            message: error,
+            success: false,
+          });
+        }
 
         setLiked(false);
         setLikeCount((count) => count - 1);
       } else {
-        await likePost(item.id);
+        const error = await likePost(item.id);
+        if (error) {
+          setToast({
+            message: error,
+            success: false,
+          });
+        }
 
         setLiked(true);
         setLikeCount((count) => count + 1);
       }
     } catch (error) {
       console.error("Failed to update like:", error);
+      if (error) {
+        setToast({
+          message: "Failed to like the post",
+          success: false,
+        });
+      }
     } finally {
       setLoading(false);
     }
