@@ -2,19 +2,12 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { likePost, unlikePost } from "../utils/libs/supabase";
+import { likePost, unlikePost } from "../utils/libs/supabaseClient";
+import Link from "next/link";
+import { Post } from "../data/type";
 
 type PostCardProps = {
-  item: {
-    id: number;
-    name: string;
-    avatar: string;
-    scenario: string;
-    excuse: string;
-    score: number;
-    likes: string;
-    isLiked: boolean;
-  };
+  item: Post;
   setToast: (
     value: {
       message: string;
@@ -46,6 +39,7 @@ export default function PostCard({
             message: error,
             success: false,
           });
+          throw Error(error);
         }
 
         setLiked(false);
@@ -57,6 +51,7 @@ export default function PostCard({
             message: error,
             success: false,
           });
+          throw Error(error);
         }
 
         setLiked(true);
@@ -64,19 +59,14 @@ export default function PostCard({
       }
     } catch (error) {
       console.error("Failed to update like:", error);
-      if (error) {
-        setToast({
-          message: "Failed to like the post",
-          success: false,
-        });
-      }
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div
+    <Link
+      href={`/community/${item.id}`}
       className={`relative flex w-64 shrink-0 snap-start flex-col justify-between rounded-2xl border border-slate-200/70 bg-primary-bg/70 p-2 pt-5 backdrop-blur-md transition-all hover:-translate-y-0.5 hover:shadow-sm sm:p-5 ${className}`}
     >
       {/* Content Top */}
@@ -108,7 +98,7 @@ export default function PostCard({
       </div>
 
       {/* Bottom Row */}
-      <div className="mt-6 flex items-center justify-between sm:mt-8">
+      <div className="pt-6 flex items-center justify-between sm:pt-8">
         {/* User */}
         <div className="flex min-w-0 items-center gap-2 pr-10">
           <div className="relative h-7 w-7 shrink-0 overflow-hidden rounded-full border border-slate-200">
@@ -128,12 +118,15 @@ export default function PostCard({
 
         {/* Like */}
         <button
-          onClick={handleLike}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleLike();
+          }}
           disabled={loading}
           aria-label={liked ? "Unlike post" : "Like post"}
-          className="flex shrink-0 items-center gap-1 text-xs font-bold text-primary cursor-pointer transition-transform active:scale-90 disabled:opacity-60 group"
+          className="flex shrink-0 items-center gap-1 text-xs font-bold text-primary cursor-pointer transition-transform active:scale-90 disabled:opacity-60 group/like"
         >
-          <span className="text-base group-active:scale-110">
+          <span className="text-base group-active/like:scale-90 group-hover/like:scale-110">
             {liked ? "❤️" : "🤍"}
           </span>
 
@@ -145,6 +138,6 @@ export default function PostCard({
       <div className="absolute -right-2 -top-2 flex h-10 w-10 items-center justify-center rounded-full border border-slate-100 bg-primary-bg text-lg font-black text-emerald-500 shadow-md shadow-slate-200/50 sm:h-12 sm:w-12 sm:text-xl">
         {item.score}
       </div>
-    </div>
+    </Link>
   );
 }

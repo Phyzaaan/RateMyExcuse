@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { supabase } from "../utils/supabase/client";
 import { ArrowLeft } from "lucide-react";
 import Image from "next/image";
@@ -57,10 +57,10 @@ export default function LoginPage() {
       <div className="absolute top-4 left-4 md:top-6 md:left-6">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 rounded-2xl border border-card-border bg-primary-bg/80 px-4 py-2 text-sm font-medium text-primary shadow-sm transition hover:bg-white"
+          className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white/75 px-3 py-2 text-sm font-bold text-primary shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
         >
           <ArrowLeft className="h-4 w-4" />
-          Back to game
+          Back to Game
         </Link>
       </div>
 
@@ -74,7 +74,7 @@ export default function LoginPage() {
               Excuse
             </h1>
           </div>
-          <p className="mt-4 text-tertiary text-xl">
+          <p className="pt-4 text-tertiary text-xl">
             Convince them. Survive the roast. Create an account to save your
             best excuses and join the community.
           </p>
@@ -108,7 +108,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="mt-2 rounded-xl bg-primary-color text-white px-4 py-3 font-semibold hover:opacity-95 disabled:opacity-60"
+                className="pt-2 rounded-xl bg-primary-color text-white px-4 py-3 font-semibold hover:opacity-95 disabled:opacity-60"
               >
                 {loading
                   ? "Sending…"
@@ -118,7 +118,7 @@ export default function LoginPage() {
               </button>
             </form>
 
-            <div className="flex items-center gap-3 mt-4">
+            <div className="flex items-center gap-3 pt-4">
               <div className="h-px bg-card-border flex-1" />
               <div className="text-sm text-tertiary">or continue with</div>
               <div className="h-px bg-card-border flex-1" />
@@ -153,7 +153,7 @@ export default function LoginPage() {
             </div>
 
             {message && (
-              <p className="text-sm text-secondary mt-2">{message}</p>
+              <p className="text-sm text-secondary pt-2">{message}</p>
             )}
           </div>
         </div>

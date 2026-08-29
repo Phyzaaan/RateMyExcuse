@@ -51,7 +51,7 @@ export async function fetchCommunityPosts(limit: number) {
       scenario: post.scenario,
       excuse: post.excuse,
       score: post.total_score,
-      likes: String(likeCount),
+      likes: likeCount,
       isLiked: likedPostIds.includes(post.id),
     };
   });

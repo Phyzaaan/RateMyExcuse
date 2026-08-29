@@ -4,7 +4,7 @@ import { useRef, useState, useEffect, useCallback } from "react";
 import { ChevronLeft, ChevronRight, Users } from "lucide-react";
 import { Post } from "../data/type";
 import PostCard from "./CommunityPostCard";
-import { fetchCommunityPosts } from "../utils/libs/supabase";
+import { fetchCommunityPosts } from "../utils/libs/supabaseClient";
 import Link from "next/link";
 import PostCardSkeleton from "./Skeleton/CommunityPostCard";
 
@@ -59,7 +59,7 @@ export default function CommunityFeed({ setToast }: props) {
     <section className="max-w-5xl  w-full mx-auto px-4">
       <div className="rounded-2xl glass-panel p-3 sm:p-5 shadow-md overflow-hidden">
         {/* Header Section */}
-        <div className="flex flex-row items-center justify-between gap-3 mb-1 sm:mb-0">
+        <div className="flex flex-row items-center justify-between gap-3 pb-1 sm:pb-0">
           <div className="flex flex-row items-center gap-2 sm:gap-3">
             <div className="shrink-0">
               <Users
@@ -86,7 +86,7 @@ export default function CommunityFeed({ setToast }: props) {
         </div>
 
         {/* Carousel Container */}
-        <div className="relative group mt-3">
+        <div className="relative group pt-3">
           {/* Left / Previous Slide Button */}
           {canScrollLeft && (
             <button
@@ -104,13 +104,23 @@ export default function CommunityFeed({ setToast }: props) {
             onScroll={checkScrollState}
             className="flex carousel-mask gap-3 sm:gap-4 overflow-x-auto snap-x snap-mandatory py-3 px-1 sm:px-2 scroll-smooth"
           >
-            {loading
-              ? Array.from({ length: 5 }).map((_, i) => (
-                  <PostCardSkeleton key={i} />
-                ))
-              : posts?.map((post) => (
-                  <PostCard key={post.id} item={post} setToast={setToast} />
-                ))}
+            {loading ? (
+              Array.from({ length: 6 }).map((_, index) => (
+                <PostCardSkeleton key={index} className="w-full" />
+              ))
+            ) : posts && posts.length > 0 ? (
+              posts.map((post) => (
+                <PostCard
+                  key={post.id}
+                  item={post}
+                  setToast={setToast}
+                />
+              ))
+            ) : (
+              <div className="col-span-full rounded-2xl border border-dashed border-slate-300 bg-white/50 p-8 text-center text-sm font-medium text-secondary">
+                No excuses yet. Be the first to share one.
+              </div>
+            )}
           </div>
 
           {/* Right / Next Slide Button */}

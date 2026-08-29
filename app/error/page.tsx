@@ -21,7 +21,7 @@ export default async function ErrorPage({
   return (
     <main className="flex min-h-screen w-full items-center justify-center p-6">
       <div className="glass-panel w-full max-w-3xl rounded-3xl p-8 shadow-lg">
-        <div className="mb-6 inline-flex rounded-full border border-red-200 bg-red-50 px-3 py-1 text-sm font-medium text-red-700">
+        <div className="pb-6 inline-flex rounded-full border border-red-200 bg-red-50 px-3 py-1 text-sm font-medium text-red-700">
           Authentication error
         </div>
 
@@ -29,16 +29,12 @@ export default async function ErrorPage({
           {message}
         </h1>
 
-        {/* <p className="mt-4 text-base text-secondary md:text-lg">
-          {message}
-        </p> */}
-
-        <div className="mt-8 rounded-2xl border border-card-border bg-primary-bg/60 p-4 text-sm text-tertiary">
+        <div className="pt-8 rounded-2xl border border-card-border bg-primary-bg/60 p-4 text-sm text-tertiary">
           This usually happens when the sign-in link has expired, the OAuth flow
           was interrupted, or the callback could not complete.
         </div>
 
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+        <div className="pt-8 flex flex-col gap-3 sm:flex-row">
           <Link
             href="/login"
             className="inline-flex items-center justify-center rounded-xl bg-primary-color px-4 py-3 font-semibold text-white transition hover:opacity-95"

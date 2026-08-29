@@ -13,13 +13,13 @@ export default function FakeAd({ onComplete }: FakeAdProps) {
 
       <h2 className="text-2xl font-black">Totally Real Advertisement™</h2>
 
-      <p className="mt-2 text-gray-500">
+      <p className="pt-2 text-gray-500">
         Please enjoy this extremely legitimate ad.
       </p>
 
       <button
         onClick={onComplete}
-        className="mt-6 rounded-xl bg-primary-color px-6 py-3 font-bold text-white"
+        className="pt-6 rounded-xl bg-primary-color px-6 py-3 font-bold text-white"
       >
         Continue
       </button>

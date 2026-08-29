@@ -19,6 +19,6 @@ export type Post = {
   scenario: string;
   excuse: string;
   score: number;
-  likes: string;
+  likes: number;
   isLiked: boolean;
 };

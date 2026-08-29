@@ -13,14 +13,14 @@ export default function AdPopup({ onWatch, onClose }: AdPopupProps) {
       <div className="relative z-50 w-full max-w-lg rounded-3xl bg-white p-6 text-center shadow-2xl">
         <div className="text-6xl">🤡</div>
 
-        <h2 className="mt-4 text-3xl font-extrabold">No More Free Games!</h2>
+        <h2 className="pt-4 text-3xl font-extrabold">No More Free Games!</h2>
 
-        <p className="mt-3 text-gray-600">
+        <p className="pt-3 text-gray-600">
           Your free plays have all been used up — our goofy mascot is very
           disappointed.
         </p>
 
-        <div className="mt-6 flex flex-col gap-3 px-6">
+        <div className="pt-6 flex flex-col gap-3 px-6">
           <button
             onClick={onWatch}
             className="rounded-xl bg-primary-color px-6 py-3 font-bold text-white"
