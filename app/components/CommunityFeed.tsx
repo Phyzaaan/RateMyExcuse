@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight, Users } from "lucide-react";
 import { Post } from "../data/type";
 import PostCard from "./CommunityPostCard";
 import { fetchCommunityPosts } from "../utils/libs/supabase";
-
+import Link from "next/link";
 import PostCardSkeleton from "./Skeleton/CommunityPostCard";
 
 interface props {
@@ -56,7 +56,7 @@ export default function CommunityFeed({ setToast }: props) {
   };
 
   return (
-    <section className="max-w-5xl  w-full mx-auto px-2 sm:px-4">
+    <section className="max-w-5xl  w-full mx-auto px-4">
       <div className="rounded-2xl glass-panel p-3 sm:p-5 shadow-md overflow-hidden">
         {/* Header Section */}
         <div className="flex flex-row items-center justify-between gap-3 mb-1 sm:mb-0">
@@ -76,10 +76,13 @@ export default function CommunityFeed({ setToast }: props) {
               </p>
             </div>
           </div>
-          <button className="self-start sm:self-auto inline-flex items-center gap-1 px-1 py-2 text-xs sm:text-sm font-bold text-tertiary transition hover:-translate-y-0.5 hover:shadow-sm hover:text-primary rounded-xl">
+          <Link
+            href="/community"
+            className="self-start sm:self-auto inline-flex items-center gap-1 px-1 py-2 text-xs sm:text-sm font-bold text-tertiary transition hover:-translate-y-0.5 hover:shadow-sm hover:text-primary rounded-xl"
+          >
             View All
             <span>→</span>
-          </button>
+          </Link>
         </div>
 
         {/* Carousel Container */}
@@ -105,7 +108,9 @@ export default function CommunityFeed({ setToast }: props) {
               ? Array.from({ length: 5 }).map((_, i) => (
                   <PostCardSkeleton key={i} />
                 ))
-              : posts?.map((post) => <PostCard key={post.id} item={post} setToast={setToast} />)}
+              : posts?.map((post) => (
+                  <PostCard key={post.id} item={post} setToast={setToast} />
+                ))}
           </div>
 
           {/* Right / Next Slide Button */}

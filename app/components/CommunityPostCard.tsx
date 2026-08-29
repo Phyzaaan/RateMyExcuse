@@ -21,9 +21,14 @@ type PostCardProps = {
       success: boolean;
     } | null,
   ) => void;
+  className?: string;
 };
 
-export default function PostCard({ item, setToast }: PostCardProps) {
+export default function PostCard({
+  item,
+  setToast,
+  className = "",
+}: PostCardProps) {
   const [liked, setLiked] = useState(item.isLiked);
   const [likeCount, setLikeCount] = useState(Number(item.likes));
   const [loading, setLoading] = useState(false);
@@ -71,7 +76,9 @@ export default function PostCard({ item, setToast }: PostCardProps) {
   };
 
   return (
-    <div className="relative flex w-64 shrink-0 snap-start flex-col justify-between rounded-2xl border border-slate-200/70 bg-primary-bg/70 p-4 pt-6 backdrop-blur-md transition-all hover:-translate-y-0.5 hover:shadow-sm sm:p-5">
+    <div
+      className={`relative flex w-64 shrink-0 snap-start flex-col justify-between rounded-2xl border border-slate-200/70 bg-primary-bg/70 p-2 pt-5 backdrop-blur-md transition-all hover:-translate-y-0.5 hover:shadow-sm sm:p-5 ${className}`}
+    >
       {/* Content Top */}
       <div className="flex h-full w-full flex-col gap-2">
         {/* Scenario */}
@@ -124,9 +131,11 @@ export default function PostCard({ item, setToast }: PostCardProps) {
           onClick={handleLike}
           disabled={loading}
           aria-label={liked ? "Unlike post" : "Like post"}
-          className="flex shrink-0 items-center gap-1 text-xs font-bold text-primary cursor-pointer transition-transform active:scale-90 disabled:opacity-60"
+          className="flex shrink-0 items-center gap-1 text-xs font-bold text-primary cursor-pointer transition-transform active:scale-90 disabled:opacity-60 group"
         >
-          <span className="text-base">{liked ? "❤️" : "🤍"}</span>
+          <span className="text-base group-active:scale-110">
+            {liked ? "❤️" : "🤍"}
+          </span>
 
           <span>{likeCount}</span>
         </button>
