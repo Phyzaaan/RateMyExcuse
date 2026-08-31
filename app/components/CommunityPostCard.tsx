@@ -119,6 +119,7 @@ export default function PostCard({
         {/* Like */}
         <button
           onClick={(e) => {
+            e.preventDefault();
             e.stopPropagation();
             handleLike();
           }}

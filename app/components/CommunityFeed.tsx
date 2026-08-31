@@ -106,7 +106,7 @@ export default function CommunityFeed({ setToast }: props) {
           >
             {loading ? (
               Array.from({ length: 6 }).map((_, index) => (
-                <PostCardSkeleton key={index} className="w-full" />
+                <PostCardSkeleton key={index} />
               ))
             ) : posts && posts.length > 0 ? (
               posts.map((post) => (

@@ -3,6 +3,11 @@ export type Message = {
   content: string;
 };
 
+export type Toast = {
+  message: string;
+  success: boolean;
+};
+
 export type Verdict = {
   score: number;
   mascotReaction: string;
@@ -11,6 +16,16 @@ export type Verdict = {
   creativity: number;
   confidence: number;
 };
+
+export type Comment = {
+  id: number;
+  name: string;
+  avatar: string;
+  isOwner: boolean;
+  time: string;
+  body: string;
+};
+
 export type Post = {
   id: number;
   user_id: string;

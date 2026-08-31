@@ -6,16 +6,13 @@ import { ArrowLeft, Users } from "lucide-react";
 import CommunityPostCard from "../components/CommunityPostCard";
 import ToastMessage from "../components/ToastMessage";
 import PostCardSkeleton from "../components/Skeleton/CommunityPostCard";
-import type { Post } from "../data/type";
+import type { Post, Toast } from "../data/type";
 import { fetchCommunityPosts } from "../utils/libs/supabaseClient";
 
 export default function CommunityPage() {
   const [posts, setPosts] = useState<Post[] | null>(null);
   const [loading, setLoading] = useState(true);
-  const [toast, setToast] = useState<{
-    message: string;
-    success: boolean;
-  } | null>(null);
+  const [toast, setToast] = useState<Toast | null>(null);
 
   useEffect(() => {
     let isMounted = true;

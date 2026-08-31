@@ -52,3 +52,36 @@ export async function fetchPostById(id: number) {
     isLiked: isLiked,
   };
 }
+
+export async function fetchComments(postId: number, limit: number) {
+  const { data, error } = await supabase
+    .from("comments")
+    .select(
+      `id, user_id, comment, created_at, users!comments_user_id_fkey ( username, avatar )`,
+    )
+    .eq("post_id", postId)
+    .order("created_at", { ascending: false })
+    .limit(limit);
+
+  if (error || !data) {
+    console.error(error);
+    return null;
+  }
+
+  const userId = await getUserId();
+
+  return data.map((comment) => {
+    const userData = Array.isArray(comment.users)
+      ? comment.users[0]
+      : comment.users;
+
+    return {
+      id: comment.id,
+      name: userData?.username ?? "Guest",
+      avatar: userData?.avatar ?? "/img/user.jpg",
+      isOwner: userId == comment.user_id ? true : false,
+      time: comment.created_at,
+      body: comment.comment,
+    };
+  });
+}

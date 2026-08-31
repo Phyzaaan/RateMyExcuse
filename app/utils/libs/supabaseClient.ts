@@ -99,3 +99,48 @@ export async function unlikePost(postId: number) {
     return error?.message;
   }
 }
+
+export async function addComment(postId: number, comment: string) {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    console.error("You must be logged in to comment.");
+    return "You must be logged in to comment.";
+  }
+
+  const { data, error } = await supabase.from("comments").insert({
+    user_id: user.id,
+    post_id: postId,
+    comment,
+  }).select("id").single();
+
+  if (error) {
+    console.error(error);
+    return error.message;
+  }
+  return data.id as number;
+}
+
+export async function deleteComment(commentId: number) {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    console.error("You must be logged in to delete a comment.");
+    return "You must be logged in to delete a comment.";
+  }
+
+  const { error } = await supabase
+    .from("comments")
+    .delete()
+    .eq("id", commentId)
+    .eq("user_id", user.id);
+
+  if (error) {
+    console.error(error);
+    return error.message;
+  }
+}

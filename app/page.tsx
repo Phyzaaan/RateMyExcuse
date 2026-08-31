@@ -8,7 +8,7 @@ import CommunityFeed from "./components/CommunityFeed";
 import FooterNote from "./components/FooterNote";
 import AdPopup from "./components/AdPopup";
 import FakeAd from "./components/FakeAd";
-import type { Verdict } from "./data/type";
+import type { Verdict, Toast } from "./data/type";
 import { GlowBackground } from "./components/GlowBg";
 import ToastMessage from "./components/ToastMessage";
 
@@ -33,10 +33,7 @@ export default function Home() {
   const [avatar, setAvatar] = useState("/img/user.jpg");
   const [showFakeAd, setShowFakeAd] = useState(false);
   const [showAd, setShowAd] = useState(false);
-  const [toast, setToast] = useState<{
-    message: string;
-    success: boolean;
-  } | null>(null);
+  const [toast, setToast] = useState<Toast | null>(null);
   const [isSharing, setIsSharing] = useState(false);
   const [isPublished, setIsPublished] = useState(false);
 

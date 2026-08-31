@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { likePost, unlikePost } from "@/app/utils/libs/supabaseClient";
 import ToastMessage from "@/app/components/ToastMessage";
-import { Post } from "@/app/data/type";
+import { Post, Toast } from "@/app/data/type";
 import Image from "next/image";
 
 function getSafeAvatar(src?: string | null) {
@@ -21,10 +21,7 @@ export default function PostCard({ postData }: props) {
   const [liked, setLiked] = useState(postData.isLiked);
   const [likeCount, setLikeCount] = useState(Number(postData.likes));
   const [loading, setLoading] = useState(false);
-  const [toast, setToast] = useState<{
-    message: string;
-    success: boolean;
-  } | null>(null);
+  const [toast, setToast] = useState<Toast | null>(null);
 
   const handleLike = async () => {
     if (loading) return;
