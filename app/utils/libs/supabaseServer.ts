@@ -20,7 +20,6 @@ export async function fetchPostById(id: number) {
   let isLiked = false;
 
   if (userId) {
-    console.log("The Funchiin is runned");
     const postId = post.id;
 
     const { data: userLikes, error: likesError } = await supabase
@@ -36,7 +35,6 @@ export async function fetchPostById(id: number) {
     if (userLikes) isLiked = true;
   }
 
-  console.log(isLiked);
   const userData = Array.isArray(post.users) ? post.users[0] : post.users;
   const likeCount = Array.isArray(post.likes) ? (post.likes[0]?.count ?? 0) : 0;
 
