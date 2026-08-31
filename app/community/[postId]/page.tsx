@@ -1,9 +1,10 @@
-import { fetchPostById, fetchComments } from "@/app/utils/libs/supabaseServer";
-import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import PostCard from "./component/PostCard";
-import CommentSection from "./component/CommentSection";
+import { Suspense } from "react";
+import PostStream from "./stream/PostSream";
+import CommentsStream from "./stream/CommentsStream";
+import PostCardSkeleton from "./skeleton/PostCard";
+import CommentSectionSkeleton from "./skeleton/CommentSection";
 
 type Props = {
   params: Promise<{
@@ -14,14 +15,7 @@ type Props = {
 export default async function CommunityPost({ params }: Props) {
   const param = await params;
   const id = Number(param.postId);
-  if (Number.isNaN(id)) notFound();
-
-  const [postData, comments] = await Promise.all([
-    fetchPostById(id),
-    fetchComments(id, 10),
-  ]);
-
-  if (!postData) notFound();
+  if (Number.isNaN(id)) return null;
 
   return (
     <main className="mx-auto flex w-full max-w-5xl flex-col gap-4 px-4 py-4 text-primary">
@@ -43,9 +37,14 @@ export default async function CommunityPost({ params }: Props) {
         </Link>
       </div>
 
-      <PostCard postData={postData} />
+      <Suspense fallback={<PostCardSkeleton />}>
+        {/* Server component that fetches the post and will call notFound() if missing */}
+        <PostStream id={id} />
+      </Suspense>
 
-      <CommentSection initialComments={comments} post_id={id} />
+      <Suspense fallback={<CommentSectionSkeleton />}>
+        <CommentsStream post_id={id} limit={10} />
+      </Suspense>
     </main>
   );
 }
