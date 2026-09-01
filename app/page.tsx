@@ -9,7 +9,6 @@ import FooterNote from "./components/FooterNote";
 import AdPopup from "./components/AdPopup";
 import FakeAd from "./components/FakeAd";
 import type { Verdict, Toast } from "./data/type";
-import { GlowBackground } from "./components/GlowBg";
 import ToastMessage from "./components/ToastMessage";
 
 import {
@@ -215,8 +214,6 @@ export default function Home() {
 
   return (
     <main className="flex flex-col items-center max-w-5xl w-full min-h-screen text-primary gap-10">
-      <GlowBackground className="fixed max-w-5xl w-full inset-y-0 -z-10" />
-
       {gameCount === 0 && showAd && (
         <AdPopup onWatch={handleWatchAd} onClose={handleCloseAdPopup} />
       )}
