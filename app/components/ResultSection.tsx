@@ -134,8 +134,8 @@ export default function ResultSection({
                 <Image
                   src={`/img/${verdict?.mascotReaction}.png`}
                   alt="Emoji"
-                  width={80}
-                  height={80}
+                  width={120}
+                  height={120}
                 />
               </div>
 
