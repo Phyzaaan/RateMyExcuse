@@ -21,15 +21,15 @@ export default async function ErrorPage({
   return (
     <main className="flex min-h-screen w-full items-center justify-center p-6">
       <div className="glass-panel w-full max-w-3xl rounded-3xl p-8 shadow-lg">
-        <div className="pb-6 inline-flex rounded-full border border-red-200 bg-red-50 px-3 py-1 text-sm font-medium text-red-700">
+        <div className="inline-flex rounded-full border border-red-200 bg-red-50 px-3 py-1 text-sm font-medium text-red-700">
           Authentication error
         </div>
 
-        <h1 className="text-4xl font-black tracking-tight text-primary md:text-5xl">
+        <h1 className="pb-4 text-3xl font-bold tracking-tight text-primary md:text-5xl">
           {message}
         </h1>
 
-        <div className="pt-8 rounded-2xl border border-card-border bg-primary-bg/60 p-4 text-sm text-tertiary">
+        <div className="rounded-2xl border border-card-border bg-primary-bg/60 p-4 text-sm text-tertiary">
           This usually happens when the sign-in link has expired, the OAuth flow
           was interrupted, or the callback could not complete.
         </div>
