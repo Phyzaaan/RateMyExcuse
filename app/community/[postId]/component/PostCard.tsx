@@ -5,6 +5,7 @@ import { likePost, unlikePost } from "@/app/utils/libs/supabaseClient";
 import ToastMessage from "@/app/components/ToastMessage";
 import { Post, Toast } from "@/app/data/type";
 import Image from "next/image";
+import { Clock3 } from "lucide-react";
 
 function getSafeAvatar(src?: string | null) {
   if (!src || src === "undefined" || src === "null" || src.trim() === "") {
@@ -128,11 +129,16 @@ export default function PostCard({ postData }: props) {
 
               <span>{likeCount}</span>
             </button>
-            <div className="text-sm font-semibold text-secondary">
-              {postData.likes > 0
-                ? `${postData.likes} ${postData.likes > 1 ? "people" : "person"} reacted to this.`
-                : "No One Reacted to this."}
-            </div>
+            <div className="flex items-center gap-2 text-[11px] font-semibold text-secondary">
+                <Clock3 className="h-3.5 w-3.5" />
+                {postData.created_at
+                  ? new Date(postData.created_at).toLocaleDateString(undefined, {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    })
+                  : "Recent"}
+              </div>
           </div>
         </div>
       </article>

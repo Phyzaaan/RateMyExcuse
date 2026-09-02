@@ -11,10 +11,16 @@ export default function NotFound() {
         </h1>
 
         <p className="text-md md:text-lg font-bold text-slate-600 text-center max-w-xl">
-          Oops — the excuse you were looking for wandered off. Our goofy mascot
-          is looking around for it.
+          Goofy searched high and low, but she could not find what you are
+          looking for...
         </p>
-
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white/75 px-3 py-2 text-sm font-bold text-primary shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back to Home
+        </Link>
         <div className="absolute bottom-0 flex flex-col justify-center items-center overflow-hidden min-h-0">
           <Image
             src={`/img/goofy-not-found.png`}
@@ -23,13 +29,6 @@ export default function NotFound() {
             height={350}
           />
         </div>
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white/75 px-3 py-2 text-sm font-bold text-primary shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Back to Game
-        </Link>
       </div>
     </main>
   );
