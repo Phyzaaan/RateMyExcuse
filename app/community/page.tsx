@@ -15,13 +15,13 @@ export default function CommunityPage() {
   const [toast, setToast] = useState<Toast | null>(null);
 
   useEffect(() => {
-    let isMounted = true;
+    let valid = true;
 
     async function loadPosts() {
       setLoading(true);
-      const data = await fetchCommunityPosts(20);
+      const data = await fetchCommunityPosts(20, 0);
 
-      if (!isMounted) return;
+      if (!valid) return;
 
       setPosts(data ?? []);
       setLoading(false);
@@ -30,7 +30,7 @@ export default function CommunityPage() {
     loadPosts();
 
     return () => {
-      isMounted = false;
+      valid = false;
     };
   }, []);
 

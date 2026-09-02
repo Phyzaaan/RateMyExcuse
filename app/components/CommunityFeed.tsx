@@ -25,12 +25,19 @@ export default function CommunityFeed({ setToast }: props) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    let valid = true;
+
     (async function fetchPosts() {
       setLoading(true);
-      const data = await fetchCommunityPosts(10);
+      const data = await fetchCommunityPosts(10, 0);
+      if (!valid) return;
       setPosts(data);
       setLoading(false);
     })();
+
+    return () => {
+      valid = true;
+    };
   }, []);
 
   // Check scroll positions to show/hide arrows dynamically
@@ -110,11 +117,7 @@ export default function CommunityFeed({ setToast }: props) {
               ))
             ) : posts && posts.length > 0 ? (
               posts.map((post) => (
-                <PostCard
-                  key={post.id}
-                  item={post}
-                  setToast={setToast}
-                />
+                <PostCard key={post.id} item={post} setToast={setToast} />
               ))
             ) : (
               <div className="col-span-full rounded-2xl border border-dashed border-slate-300 bg-white/50 p-8 text-center text-sm font-medium text-secondary">

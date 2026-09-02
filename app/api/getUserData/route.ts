@@ -5,9 +5,11 @@ import getUserId from "@/app/utils/auth/getUserId";
 
 export async function POST() {
   try {
+    let logedIn = true;
     let userId = await getUserId();
 
     if (!userId) {
+      logedIn = false;
       const { guestId } = await getOrCreateGuest();
       userId = guestId;
     }
@@ -36,7 +38,8 @@ export async function POST() {
     return NextResponse.json({
         username: user.username,
         avatar: user.avatar,
-        games_remaining: user.games_remaining
+        games_remaining: user.games_remaining,
+        logedIn
     });
   } catch (err) {
     console.error(err);

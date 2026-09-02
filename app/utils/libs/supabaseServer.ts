@@ -5,7 +5,7 @@ export async function fetchPostById(id: number) {
   const { data: post, error } = await supabase
     .from("community_posts")
     .select(
-      `id, user_id, scenario, excuse, total_score, likes(count), users!community_posts_user_id_fkey ( username, avatar )`,
+      `id, user_id, created_at, scenario, excuse, total_score, likes(count), users!community_posts_user_id_fkey ( username, avatar )`,
     )
     .eq("id", id)
     .maybeSingle();
@@ -48,6 +48,7 @@ export async function fetchPostById(id: number) {
     score: post.total_score,
     likes: likeCount,
     isLiked: isLiked,
+    created_at: post.created_at,
   };
 }
 
@@ -82,4 +83,24 @@ export async function fetchComments(postId: number, limit: number) {
       body: comment.comment,
     };
   });
+}
+
+export async function getUserDataByUsername(username: string) {
+  const { data, error } = await supabase
+    .from("users")
+    .select(
+      "user_id, username, avatar, games_played, games_remaining, highest_score, is_premium",
+    )
+    .eq("username", username)
+    .maybeSingle();
+
+  if (error || !data) {
+    console.error(error);
+    return { data: null, error };
+  }
+
+  const userId = await getUserId();
+
+  const isOwner = userId && userId === data.user_id ? true : false;
+  return { data, isOwner, error: null };
 }

@@ -30,6 +30,7 @@ export default function Home() {
   const [gameCount, setGameCount] = useState(5);
   const [username, setUsername] = useState("Unknown");
   const [avatar, setAvatar] = useState("/img/user.jpg");
+  const [logedIn, setLogedIn] = useState(false);
   const [showFakeAd, setShowFakeAd] = useState(false);
   const [showAd, setShowAd] = useState(false);
   const [toast, setToast] = useState<Toast | null>(null);
@@ -46,8 +47,9 @@ export default function Home() {
 
   useEffect(() => {
     if (submittedExcuse || verdict) return;
+    let valid = true;
 
-    async function startGame() {
+    (async function startGame() {
       const res = await fetch("/api/chat/start", {
         method: "POST",
         headers: {
@@ -61,16 +63,20 @@ export default function Home() {
         console.log(data.error);
         setStartError(data.error);
       }
+      
+      if (!valid) return;
 
       if (data.scenario) setScenario(data.scenario);
       if (data.interactionId) setInteractionId(data.interactionId);
-    }
-
-    startGame();
+    })();
+    return () => {
+      valid = false;
+    };
   }, [submittedExcuse, verdict]);
 
   useEffect(() => {
-    async function getUserData() {
+    let valid = true;
+    (async function getUserData() {
       const res = await fetch("/api/getUserData", {
         method: "POST",
         headers: {
@@ -85,12 +91,17 @@ export default function Home() {
         // setStartError(data.error);
       }
 
+      if (!valid) return;
+
       if (data.games_remaining) setGameCount(data.games_remaining);
       if (data.username) setUsername(data.username);
       if (data.avatar) setAvatar(data.avatar);
-    }
+      if (data.logedIn) setLogedIn(data.logedIn);
+    })();
 
-    getUserData();
+    return () => {
+      valid = false;
+    };
   }, [gameCount]);
 
   function handleReset() {
@@ -227,7 +238,7 @@ export default function Home() {
         </div>
       )}
 
-      <HeroSection username={username} avatar={avatar} />
+      <HeroSection username={username} avatar={avatar} logedIn={logedIn} />
 
       <SituationPanel
         startError={startError}

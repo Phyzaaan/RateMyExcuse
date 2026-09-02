@@ -36,4 +36,15 @@ export type Post = {
   score: number;
   likes: number;
   isLiked: boolean;
+  created_at: string;
+};
+
+export type UserData = {
+  user_id?: string | null;
+  username?: string | null;
+  avatar?: string | null;
+  games_played?: number | null;
+  games_remaining?: number | null;
+  is_premium?: boolean | null;
+  highest_score?: number | null;
 };
