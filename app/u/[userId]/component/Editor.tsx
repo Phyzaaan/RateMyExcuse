@@ -110,7 +110,7 @@ export default function Editor({
             {loading ? (
               <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-slate-400 border-t-transparent" />
             ) : (
-              <span>Save</span>
+              <span>Delete My Account</span>
             )}
           </button>
 
@@ -122,7 +122,7 @@ export default function Editor({
             {loading ? (
               <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-slate-400 border-t-transparent" />
             ) : (
-              <span>Delete My Account</span>
+              <span>Save Changes</span>
             )}
           </button>
         </div>

@@ -28,6 +28,7 @@ export default function Home() {
   const [startError, setStartError] = useState<string | null>(null);
 
   const [gameCount, setGameCount] = useState(5);
+  const [userId, setUserId] = useState("");
   const [username, setUsername] = useState("Unknown");
   const [avatar, setAvatar] = useState("/img/user.jpg");
   const [logedIn, setLogedIn] = useState(false);
@@ -63,7 +64,7 @@ export default function Home() {
         console.log(data.error);
         setStartError(data.error);
       }
-      
+
       if (!valid) return;
 
       if (data.scenario) setScenario(data.scenario);
@@ -97,6 +98,7 @@ export default function Home() {
       if (data.username) setUsername(data.username);
       if (data.avatar) setAvatar(data.avatar);
       if (data.logedIn) setLogedIn(data.logedIn);
+      if (data.user_id) setUserId(data.user_id);
     })();
 
     return () => {
@@ -238,7 +240,12 @@ export default function Home() {
         </div>
       )}
 
-      <HeroSection username={username} avatar={avatar} logedIn={logedIn} />
+      <HeroSection
+        user_id={userId}
+        username={username}
+        avatar={avatar}
+        logedIn={logedIn}
+      />
 
       <SituationPanel
         startError={startError}

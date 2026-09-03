@@ -85,13 +85,13 @@ export async function fetchComments(postId: number, limit: number) {
   });
 }
 
-export async function getUserDataByUsername(username: string) {
+export async function getUserDataByUserId(userId: string) {
   const { data, error } = await supabase
     .from("users")
     .select(
       "user_id, username, avatar, games_played, games_remaining, highest_score, is_premium",
     )
-    .eq("username", username)
+    .eq("user_id", userId)
     .maybeSingle();
 
   if (error || !data) {
@@ -99,8 +99,8 @@ export async function getUserDataByUsername(username: string) {
     return { data: null, error };
   }
 
-  const userId = await getUserId();
+  const currUserId = await getUserId();
 
-  const isOwner = userId && userId === data.user_id ? true : false;
+  const isOwner = currUserId && currUserId === userId ? true : false;
   return { data, isOwner, error: null };
 }

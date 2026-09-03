@@ -2,12 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 
 interface props {
+  user_id: string ;
   username: string;
   avatar: string;
   logedIn?: boolean;
 }
 
 export default function HeroSection({
+  user_id,
   username,
   avatar,
   logedIn = false,
@@ -16,7 +18,7 @@ export default function HeroSection({
     <section className="relative max-w-5xl w-full shrink-0 mx-auto overflow-hidden rounded-3xl p-4 sm:p-6">
       <div className="relative z-10 flex flex-col">
         <div className="flex items-center justify-start gap-2">
-          <Link href={logedIn ? `/u/${username}` : "/login"}>
+          <Link href={logedIn ? `/u/${user_id}` : "/login"}>
             <div className="flex items-center gap-1 p-1 pr-2 rounded-3xl shadow-sm backdrop-blur-2xl bg-primary-bg/45 ring-1 ring-primary-color/30 hover:bg-slate-50 transition">
               <div className="relative h-12 w-12 overflow-hidden rounded-full border-2 border-white shadow-sm">
                 <Image

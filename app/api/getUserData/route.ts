@@ -16,7 +16,7 @@ export async function POST() {
 
     const { data: user, error } = await supabaseAdmin
       .from("users")
-      .select("games_remaining, username, avatar")
+      .select("user_id, games_remaining, username, avatar")
       .eq("user_id", userId)
       .single();
 
@@ -36,10 +36,11 @@ export async function POST() {
     }
 
     return NextResponse.json({
-        username: user.username,
-        avatar: user.avatar,
-        games_remaining: user.games_remaining,
-        logedIn
+      user_id: user.user_id,
+      username: user.username,
+      avatar: user.avatar,
+      games_remaining: user.games_remaining,
+      logedIn,
     });
   } catch (err) {
     console.error(err);

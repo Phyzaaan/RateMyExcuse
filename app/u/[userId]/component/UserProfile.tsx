@@ -20,7 +20,7 @@ export default function UserProfile({
   user: UserData;
   isOwner: boolean;
 }) {
-  const avatar = getSafeAvatar(user.avatar ?? undefined);
+  const [avatar, setAvatar] = useState(getSafeAvatar(user.avatar ?? undefined));
   const [open, setOpen] = useState(false);
   const [localUser, setLocalUser] = useState(user);
   const [toast, setToast] = useState<Toast | null>(null);
@@ -64,6 +64,7 @@ export default function UserProfile({
         return;
       }
       avatarUrl = data.publicUrl;
+      setAvatar(getSafeAvatar(avatarUrl ?? undefined));
     }
 
     const error = await updateUserProfile(username ?? undefined, avatarUrl);
@@ -85,7 +86,7 @@ export default function UserProfile({
       message: "All changes are saved successfully",
       success: true,
     });
-
+    setOpen(false);
     setLoading(false);
   };
 
@@ -96,7 +97,7 @@ export default function UserProfile({
     );
     if (!confirm) return;
     setLoading(true);
-    
+
     const error = await deleteUserProfile(user.user_id);
     if (error) {
       setToast({
@@ -111,7 +112,7 @@ export default function UserProfile({
       success: true,
     });
     setLoading(false);
-    redirect("/")
+    redirect("/");
   };
 
   return (
