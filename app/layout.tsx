@@ -6,6 +6,9 @@ import { GlowBackground } from "./components/GlowBg";
 export const metadata: Metadata = {
   title: "Rate My Excuse",
   description: "Get Brutually Judged By AI",
+  other: {
+    "google-adsense-account": "ca-pub-2430162464533504",
+  },
 };
 
 export default function RootLayout({
