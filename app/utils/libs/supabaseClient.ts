@@ -63,6 +63,7 @@ export async function fetchCommunityPosts(
       score: post.total_score,
       likes: likeCount,
       isLiked: likedPostIds.includes(post.id),
+      isOwner: user?.id === post.user_id,
       created_at: post.created_at,
     };
   });
@@ -108,6 +109,28 @@ export async function unlikePost(postId: number) {
   if (error) {
     console.error(error);
     return error?.message;
+  }
+}
+
+export async function deletePost(postId: number) {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    console.error("You must be logged in to delete a post.");
+    return "You must be logged in to delete a post.";
+  }
+
+  const { error } = await supabase
+    .from("community_posts")
+    .delete()
+    .eq("id", postId)
+    .eq("user_id", user.id);
+
+  if (error) {
+    console.error(error);
+    return error.message;
   }
 }
 

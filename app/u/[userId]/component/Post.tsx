@@ -1,13 +1,18 @@
 import { Post, Toast } from "@/app/data/type";
-import { Clock3 } from "lucide-react";
+import { Clock3, Trash2 } from "lucide-react";
 import Link from "next/link";
-import { likePost, unlikePost } from "@/app/utils/libs/supabaseClient";
+import {
+  likePost,
+  unlikePost,
+} from "@/app/utils/libs/supabaseClient";
 import { useState } from "react";
 
 export default function PostCard({
   postData,
   setToast,
+  handleDelete,
 }: {
+  handleDelete: (postId: number) => void;
   setToast: (toast: Toast | null) => void;
   postData: Post;
 }) {
@@ -109,6 +114,21 @@ export default function PostCard({
                 year: "numeric",
               })
             : "Recent"}
+          {postData.isOwner && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                handleDelete(postData.id);
+              }}
+              disabled={loading}
+              className={`hover:scale-110 active:scale-90 ${loading && "cursor-not-allowed"}`}
+            >
+              <Trash2
+                className={`w-4 h-4 text-red-500 ${loading && "text-red-500/50"}`}
+              />
+            </button>
+          )}
         </div>
       </div>
     </Link>

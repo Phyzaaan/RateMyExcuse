@@ -48,6 +48,7 @@ export async function fetchPostById(id: number) {
     score: post.total_score,
     likes: likeCount,
     isLiked: isLiked,
+    isOwner: userId === post.user_id,
     created_at: post.created_at,
   };
 }

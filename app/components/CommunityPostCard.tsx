@@ -100,7 +100,14 @@ export default function PostCard({
       {/* Bottom Row */}
       <div className="pt-6 flex items-center justify-between sm:pt-8">
         {/* User */}
-        <div className="flex min-w-0 items-center gap-2 pr-10">
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            window.location.href = `/u/${item.user_id}`;
+          }}
+          className="flex min-w-0 items-center gap-2 pr-10 cursor-pointer underline-offset-2 transition-all hover:underline"
+        >
           <div className="relative h-7 w-7 shrink-0 overflow-hidden rounded-full border border-slate-200">
             <Image
               src={item.avatar}
@@ -114,7 +121,7 @@ export default function PostCard({
           <span className="truncate text-xs font-bold text-primary">
             {item.name}
           </span>
-        </div>
+        </button>
 
         {/* Like */}
         <button

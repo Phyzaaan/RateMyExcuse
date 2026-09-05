@@ -2,7 +2,10 @@
 
 import { useState, useEffect } from "react";
 import ToastMessage from "@/app/components/ToastMessage";
-import { fetchCommunityPosts as fetchPostsByUserId } from "@/app/utils/libs/supabaseClient";
+import {
+  deletePost,
+  fetchCommunityPosts as fetchPostsByUserId,
+} from "@/app/utils/libs/supabaseClient";
 import { Toast, Post } from "@/app/data/type";
 import { Sparkles, Trophy } from "lucide-react";
 import PostCard from "./Post";
@@ -32,6 +35,37 @@ export default function UserPosts({ userId }: { userId: string }) {
     };
   }, [userId]);
 
+  const handleDelete = async (postId: number) => {
+    if (loading || !postData) return;
+
+    setLoading(true);
+
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this post?",
+    );
+    if (!confirmDelete) {
+      setLoading(false);
+      return;
+    }
+
+    const error = await deletePost(postId);
+    if (error) {
+      setToast({
+        message: error,
+        success: false,
+      });
+      setLoading(false);
+      return;
+    }
+
+    setToast({
+      message: "Post deleted successfully.",
+      success: true,
+    });
+
+    setLoading(false);
+  };
+
   return (
     <>
       <section className="relative w-full max-w-5xl mx-auto glass-panel rounded-xl py-6 px-4 shadow-sm">
@@ -59,7 +93,7 @@ export default function UserPosts({ userId }: { userId: string }) {
         <div className="flex flex-col gap-3">
           {postData ? (
             postData.map((item) => (
-              <PostCard key={item.id} postData={item} setToast={setToast} />
+              <PostCard key={item.id} postData={item} setToast={setToast} handleDelete={handleDelete} />
             ))
           ) : loading ? (
             Array.from({ length: 3 }).map((_, index) => (

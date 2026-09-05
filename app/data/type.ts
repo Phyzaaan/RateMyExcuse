@@ -36,6 +36,7 @@ export type Post = {
   score: number;
   likes: number;
   isLiked: boolean;
+  isOwner?: boolean;
   created_at: string;
 };
 
