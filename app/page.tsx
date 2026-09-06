@@ -1,5 +1,21 @@
 "use client";
 
+interface AdBreakConfig {
+  type: "reward" | "preroll" | "start" | "next" | "browse";
+  name: string;
+  beforeReward?: (showAdFn: () => void) => void;
+  adDismissed?: () => void;
+  adViewed?: () => void;
+  adBreakDone?: (placementInfo: { breakStatus: string }) => void;
+}
+
+declare global {
+  interface Window {
+    adBreak?: (config: AdBreakConfig) => void;
+    adsbygoogle?: unknown[];
+  }
+}
+
 import { useEffect, useState } from "react";
 import HeroSection from "./components/Hero";
 import SituationPanel from "./components/SituationPanel";
@@ -7,7 +23,6 @@ import ActionPanel from "./components/ActionPanel";
 import CommunityFeed from "./components/CommunityFeed";
 import FooterNote from "./components/FooterNote";
 import AdPopup from "./components/AdPopup";
-import FakeAd from "./components/FakeAd";
 import type { Verdict, Toast } from "./data/type";
 import ToastMessage from "./components/ToastMessage";
 
@@ -32,8 +47,7 @@ export default function Home() {
   const [username, setUsername] = useState("Unknown");
   const [avatar, setAvatar] = useState("/img/user.jpg");
   const [logedIn, setLogedIn] = useState(false);
-  const [showFakeAd, setShowFakeAd] = useState(false);
-  const [showAd, setShowAd] = useState(false);
+  const [showAdPopup, setShowAdPopup] = useState(false);
   const [toast, setToast] = useState<Toast | null>(null);
   const [isSharing, setIsSharing] = useState(false);
   const [isPublished, setIsPublished] = useState(false);
@@ -108,7 +122,7 @@ export default function Home() {
 
   function handleReset() {
     if (gameCount < 1) {
-      setShowAd(true);
+      setShowAdPopup(true);
       return;
     }
     setExcuse("");
@@ -117,34 +131,12 @@ export default function Home() {
     setLoading(false);
   }
 
-  function handleWatchAd() {
-    setShowAd(false);
-    setShowFakeAd(true);
-  }
-
-  function handleCloseAdPopup() {
-    setShowAd(false);
-  }
-
-  async function handleAdReward() {
-    const res = await fetch("/api/reward-ad", {
-      method: "POST",
-    });
-
-    if (res.ok) {
-      const data = await res.json();
-      setGameCount(data.games_remaining);
-    }
-
-    setShowFakeAd(false);
-  }
-
   async function handleSubmit() {
     const text = excuse.trim();
     if (!text) return;
 
     if (gameCount < 1) {
-      setShowAd(true);
+      setShowAdPopup(true);
       return;
     }
 
@@ -225,19 +217,56 @@ export default function Home() {
     }
   }
 
+  function handleWatchAd() {
+    setShowAdPopup(false);
+
+    if (typeof window === "undefined" || !window.adBreak) {
+      console.warn("Ad Placement API not loaded yet");
+      return;
+    }
+
+    window.adBreak({
+      type: "reward",
+      name: "extra-game",
+      beforeReward: (showAdFn: () => void) => {
+        // Optional: show a quick "get ready" UI here if you want
+        showAdFn(); // actually triggers the ad
+      },
+      adDismissed: () => {
+        // user skipped/closed early — do nothing, no reward
+        setToast({ message: "Ad dismissed, no reward given.", success: false });
+      },
+      adViewed: () => {
+        // user watched fully — NOW call your existing reward function
+        handleAdReward();
+        setToast({ message: "Ad completed, reward given.", success: true });
+      },
+      adBreakDone: (placementInfo: { breakStatus: string }) => {
+        // fires always, useful for logging/analytics
+        console.log("Ad break status:", placementInfo.breakStatus);
+      },
+    });
+  }
+
+  function handleCloseAdPopup() {
+    setShowAdPopup(false);
+  }
+
+  async function handleAdReward() {
+    const res = await fetch("/api/reward-ad", {
+      method: "POST",
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      setGameCount(data.games_remaining);
+    }
+  }
+
   return (
     <main className="flex flex-col items-center max-w-5xl w-full min-h-screen text-primary gap-10">
-      {gameCount === 0 && showAd && (
-        <AdPopup onWatch={handleWatchAd} onClose={handleCloseAdPopup} />
-      )}
-
-      {showFakeAd && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
-          <div className="absolute inset-0 bg-black opacity-40" />
-          <div className="relative z-50 w-full max-w-md p-4">
-            <FakeAd onComplete={handleAdReward} />
-          </div>
-        </div>
+      {gameCount === 0 && showAdPopup && (
+        <AdPopup onClose={handleCloseAdPopup} onWatch={handleWatchAd} />
       )}
 
       <HeroSection
