@@ -107,8 +107,10 @@ export default function Home() {
       }
 
       if (!valid) return;
+      console.log("Remaning Games:", data.games_remaining);
 
-      if (data.games_remaining) setGameCount(data.games_remaining);
+      if (typeof data.games_remaining === "number")
+        setGameCount(data.games_remaining);
       if (data.username) setUsername(data.username);
       if (data.avatar) setAvatar(data.avatar);
       if (data.logedIn) setLogedIn(data.logedIn);

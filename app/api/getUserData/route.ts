@@ -28,13 +28,6 @@ export async function POST() {
       );
     }
 
-    if (user.games_remaining <= 0) {
-      return NextResponse.json(
-        { error: "You don't have any free games left." },
-        { status: 429 },
-      );
-    }
-
     return NextResponse.json({
       user_id: user.user_id,
       username: user.username,

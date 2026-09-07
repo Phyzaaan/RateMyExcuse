@@ -4,12 +4,14 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "ngrok": "ngrok http 3000 --url https://sprinkled-aging-unmoving.ngrok-free.dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
   },
   "dependencies": {
     "@google/genai": "^2.13.0",
+    "@paddle/paddle-js": "^1.6.5",
     "@supabase/ssr": "^0.12.4",
     "@supabase/supabase-js": "^2.111.0",
     "lucide-react": "^1.26.0",
