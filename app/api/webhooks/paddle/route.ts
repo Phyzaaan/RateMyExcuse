@@ -1,6 +1,6 @@
-// app/api/webhooks/paddle/route.ts
 import { NextResponse } from "next/server";
 import crypto from "crypto";
+import { supabaseAdmin } from "@/app/utils/supabase/admin";
 
 export async function POST(req: Request) {
   const rawBody = await req.text();
@@ -20,14 +20,57 @@ export async function POST(req: Request) {
 
   if (event.event_type === "transaction.completed") {
     const userId = event.data.custom_data?.userId;
-    // TODO: mark this user as premium in your database
-    console.log("Grant premium to:", userId);
+
+    if (!userId) {
+      console.error(
+        "No userId in custom_data — payload was:",
+        event.data.custom_data,
+      );
+      return NextResponse.json({ error: "Missing userId" }, { status: 400 });
+    }
+
+    const { data, error } = await supabaseAdmin
+      .from("users")
+      .update({ is_premium: true })
+      .eq("user_id", userId)
+      .select(); // <-- now data will show the actual updated row(s), or []
+
+    if (error) {
+      console.error("Error updating user:", error);
+      return NextResponse.json(
+        { error: "Failed to update user" },
+        { status: 500 },
+      );
+    }
+
+    console.log("Rows updated:", data); // [] means zero matches, not a DB error
   }
 
   if (event.event_type === "subscription.canceled") {
     const userId = event.data.custom_data?.userId;
-    // TODO: remove premium access
-    console.log("Revoke premium for:", userId);
+
+    if (!userId) {
+      console.error(
+        "No userId in custom_data — payload was:",
+        event.data.custom_data,
+      );
+      return NextResponse.json({ error: "Missing userId" }, { status: 400 });
+    }
+
+    const { data, error } = await supabaseAdmin
+      .from("users")
+      .update({ is_premium: false })
+      .eq("user_id", userId);
+
+    if (error) {
+      console.error("Error revoking premium for user:", error);
+      return NextResponse.json(
+        { error: "Failed to revoke premium" },
+        { status: 500 },
+      );
+    }
+
+    console.log("Rows updated:", data); // [] means zero matches, not a DB error
   }
 
   return NextResponse.json({ received: true });

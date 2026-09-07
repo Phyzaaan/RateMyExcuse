@@ -1,12 +1,14 @@
 "use client";
 import React, { useState } from "react";
-// import { getPaddle } from "../utils/libs/paddle";
+import { getPaddle } from "../utils/libs/paddle";
+import { supabase } from "../utils/supabase/client";
+import { redirect } from "next/navigation";
 
 type BillingPeriod = "monthly" | "yearly";
 
 const PLAN_IDS: Record<BillingPeriod, string> = {
-  monthly: "pri_01m1vhw52d21xsqaz0ccn2awb4",
-  yearly: "pri_01m1vhx77a4btw76n10m53wvw4",
+  monthly: process.env.NEXT_PUBLIC_MONTHLY_SUBSCRIPTION_PLAN_ID!,
+  yearly: process.env.NEXT_PUBLIC_YEARLY_SUBSCRIPTION_PLAN_ID!,
 };
 
 function UpgradeButton({
@@ -18,19 +20,26 @@ function UpgradeButton({
 }) {
   const handle = async (e: React.MouseEvent) => {
     e.preventDefault();
-    // const paddle = await getPaddle();
+    const { data } = await supabase.auth.getUser();
+    const userId = data.user?.id;
 
-    // paddle?.Checkout.open({
-    // //   items: [{ priceId: PLAN_IDS[billingPeriod], quantity: 1 }],
-    // //   customData: {
-    // //     // TODO: pass your logged-in user's id here so the webhook can identify them
-    //     userId: "get-this-from-your-auth",
-    //   },
-    // });
+    if (!userId) {
+      redirect("/login");
+    }
+
+    const paddle = await getPaddle();
+
+    paddle?.Checkout.open({
+      items: [{ priceId: PLAN_IDS[billingPeriod], quantity: 1 }],
+      customData: {userId},
+    });
   };
 
   return (
-    <button onClick={handle} className="...">
+    <button
+      onClick={handle}
+      className="w-full rounded-xl bg-primary-color px-6 py-3.5 text-sm font-semibold text-white shadow-[0_8px_24px_rgba(124,92,255,0.35)] transition-transform hover:scale-[1.02] active:scale-[0.98]"
+    >
       {children ?? "Upgrade to Premium"}
     </button>
   );
