@@ -76,7 +76,7 @@ export default function UserPosts({ userId }: { userId: string }) {
             </div>
             <div>
               <p className="text-xl font-baloo2 font-black text-indigo-900">
-                Excuse postData
+                Excuse History
               </p>
               <p className="text-xs font-semibold text-secondary">
                 Recent submissions

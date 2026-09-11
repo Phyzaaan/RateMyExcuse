@@ -118,6 +118,7 @@ export default function UserProfile({
   return (
     <>
       <section className="relative w-full max-w-5xl mx-auto glass-panel rounded-xl py-6 px-4 shadow-sm">
+
         <div className="flex items-center gap-6">
           <Image
             src={avatar}

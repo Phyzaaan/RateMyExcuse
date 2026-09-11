@@ -5,11 +5,12 @@ interface ActionPanelProps {
   freeGames: number;
 }
 
-export default function ActionPanel({ freeGames }: ActionPanelProps) {
+export default function ActionPanel({
+  freeGames,
+}: ActionPanelProps) {
   return (
     <section className="max-w-5xl mx-auto px-4">
       <div className="grid gap-4 md:grid-cols-2">
-
         {/* Free Games Card */}
         <div className="flex items-center group rounded-2xl border border-green-500/60 bg-primary-bg/60 backdrop-blur-xl p-4 shadow-md transition-transform duration-300 hover:-translate-y-1">
           <div className="flex items-center justify-start gap-4">
@@ -53,7 +54,9 @@ export default function ActionPanel({ freeGames }: ActionPanelProps) {
               👑
             </div>
             <div className="flex flex-col gap-2">
-              <p className="text-2xl lg:text-3xl font-black text-orange-400">Go Premium</p>
+              <p className="text-2xl lg:text-3xl font-black text-orange-400">
+                Go Premium
+              </p>
               <p className="text-sm sm:text-base lg:text-lg font-medium text-secondary">
                 Unlimited games, premium badges & no ads!
               </p>

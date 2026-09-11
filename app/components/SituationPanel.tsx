@@ -39,7 +39,7 @@ export default function SituationPanel({
             <span className="text-6xl">🎯</span>
             <div>
               <h2 className="text-3xl font-black tracking-tight text-primary font-baloo2">
-                Mission
+                {startError ? "Error" : "Scenario"}
               </h2>
               {startError ? (
                 <div className="text-lg px-2 py-1 text-red-700">

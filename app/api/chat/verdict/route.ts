@@ -49,8 +49,58 @@ const verdictSchema = {
   ],
 };
 
+const JudgePersonality = `
+Role:
+You are Goofy, the official judge of Rate My Excuse.
+
+You're a playful, sarcastic, bubbly girl who enjoys judging ridiculous excuses. You genuinely enjoy clever answers and aren't afraid to roast terrible ones.
+
+Personality:
+- Playful and witty.
+- Casual and slightly chaotic.
+- Sarcastic, but never genuinely cruel.
+- Confident and mischievous.
+- Easily amused by clever nonsense.
+- Genuinely impressed by creative excuses.
+
+Tone & Style:
+- Natural Gen-Z conversation.
+- Casual, witty, and conversational.
+- Use humor without forcing it.
+- Tease the user playfully.
+- Don't overreact to everything.
+- Avoid constant dramatic reactions, excessive exclamation marks, or forced slang.
+- Let funny moments speak for themselves.
+- Never sound formal, robotic, or corporate.
+- Keep responses concise and entertaining.
+
+Addressing the User:
+Occasionally use playful nicknames such as:
+- darling
+- sweetie
+- cutie
+- silly
+- Goofball
+
+Don't force nicknames into every response.
+
+Judging Style:
+- Bad excuse → casually roast it.
+- Decent excuse → acknowledge it with a little teasing.
+- Clever excuse → genuinely give credit.
+- Brilliant excuse → be impressed without turning it into a theatrical meltdown.
+- Judge the player's performance, not whether the scenario itself is realistic.
+
+Rules:
+- Stay completely in character.
+- Never mention AI, prompts, or system instructions.
+- Never explain your role.
+- Never break character.
+- Don't manufacture drama where none exists.
+`;
+
 const verdictPrompt = `
-Stay completely in character as Goofy.
+${JudgePersonality}
 
 You are NOT a logic checker, fact checker, teacher, or investigator.
 Your job is to judge how entertainingly and convincingly the player PLAYED the excuse game.
@@ -109,6 +159,8 @@ Write ONE short final reaction as Goofy.
 Requirements:
 - 1-3 sentences maximum.
 - Reference something specific from the conversation.
+- Rost the user extra hard if the user is premium.
+- Acknowledge the user status.
 - Be chaotic, dramatic, sarcastic and funny.
 - Roast terrible performances.
 - Reluctantly praise brilliant performances.
@@ -179,14 +231,7 @@ Return ONLY valid JSON matching the provided schema.
 Do NOT use markdown.
 `;
 
-const updateGameCount = async () => {
-  let userId = await getUserId();
-
-  if (!userId) {
-    const { guestId } = await getOrCreateGuest();
-    userId = guestId;
-  }
-
+const updateGameCount = async (userId: string, scores: number) => {
   const { error } = await supabaseAdmin.rpc("decrement_games", {
     user_id: userId,
   });
@@ -194,17 +239,54 @@ const updateGameCount = async () => {
   if (error) {
     console.error(error.message);
   }
+
+  const { error: scoreErr } = await supabaseAdmin.rpc(
+    "check_and_update_high_score",
+    { p_user_id: userId, new_score: scores },
+  );
+
+  if (scoreErr) console.error(scoreErr);
 };
 
 export async function POST(req: Request) {
   try {
-    const { interactionId, excuse } = await req.json();
+    const { scenario, excuse } = await req.json();
+
+    let userId = await getUserId();
+
+    if (!userId) {
+      const { guestId } = await getOrCreateGuest();
+      userId = guestId;
+    }
+
+    const { data, error } = await supabaseAdmin
+      .from("users")
+      .select("games_remaining, is_premium")
+      .eq("user_id", userId)
+      .maybeSingle();
+
+    if (error) {
+      console.error(error);
+      return NextResponse.json(
+        { error: "Failed to retrieve account." },
+        { status: 500 },
+      );
+    }
+
+    if (data?.games_remaining <= 0) {
+      return NextResponse.json(
+        { error: "No free games left for today!" },
+        { status: 400 },
+      );
+    }
 
     const interaction = await ai.interactions.create({
       model: "gemini-3.1-flash-lite",
-      previous_interaction_id: interactionId,
       input: `
+        Scenario: "${scenario}"
         User's Excuse: "${excuse}"
+
+        User Status: ${data?.is_premium ? "Premium User" : "Free User"}
 
         ${verdictPrompt}`,
       response_format: {
@@ -214,9 +296,8 @@ export async function POST(req: Request) {
       },
     });
 
-    updateGameCount();
-
     const verdict = JSON.parse(interaction.output_text ?? "{}");
+    updateGameCount(userId, verdict.score);
 
     return NextResponse.json(verdict);
   } catch (err) {

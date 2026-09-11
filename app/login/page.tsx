@@ -60,7 +60,7 @@ export default function LoginPage() {
           className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white/75 px-3 py-2 text-sm font-bold text-primary shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
         >
           <ArrowLeft className="h-4 w-4" />
-          Back to Game
+          Back to Home
         </Link>
       </div>
 

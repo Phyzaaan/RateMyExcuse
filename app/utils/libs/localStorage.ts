@@ -5,12 +5,14 @@ export const setStoredUserData = (
   count: number,
   username: string,
   avatar: string,
+  isPremium: boolean
 ): void => {
   if (typeof window === "undefined") return; // SSR sanity check
   const data = {
     count,
     username,
     avatar,
+    isPremium
   };
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 };
@@ -20,6 +22,7 @@ export const getStoredUserData = (
   setGameCount: (value: number) => void,
   setUsername: (value: string) => void,
   setAvatar: (value: string) => void,
+  setIsPremium: (value: boolean) => void
 ) => {
   if (typeof window === "undefined") return 5; // SSR sanity check
   const res = localStorage.getItem(STORAGE_KEY);
@@ -31,4 +34,5 @@ export const getStoredUserData = (
   setGameCount(data.count);
   setUsername(data.username);
   setAvatar(data.avatar);
+  setIsPremium(data.isPremium)
 };

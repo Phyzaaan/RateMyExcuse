@@ -1,7 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { deletePost, likePost, unlikePost } from "@/app/utils/libs/supabaseClient";
+import {
+  deletePost,
+  likePost,
+  unlikePost,
+} from "@/app/utils/libs/supabaseClient";
 import ToastMessage from "@/app/components/ToastMessage";
 import { Post, Toast } from "@/app/data/type";
 import Image from "next/image";
@@ -101,7 +105,10 @@ export default function PostCard({ postData }: props) {
       <article className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white/80 shadow-[0_20px_60px_rgba(15,23,42,0.08)] backdrop-blur-sm">
         <div className="bg-linear-to-r from-indigo-600 via-violet-600 to-fuchsia-500 p-6 text-white sm:p-7">
           <div className="flex items-center justify-between gap-3">
-            <Link href={`/u/${postData.user_id}`} className="flex items-center gap-3">
+            <Link
+              href={`/u/${postData.user_id}`}
+              className="flex items-center gap-3"
+            >
               <div className="relative h-12 w-12 overflow-hidden rounded-full border-2 border-white/70 bg-white/20 shadow-lg shadow-indigo-900/20">
                 <Image
                   src={safeAvatar}
@@ -131,7 +138,7 @@ export default function PostCard({ postData }: props) {
           <div className="flex flex-col gap-2">
             <section className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 sm:p-5">
               <div className="pb-2 flex items-center gap-2 text-sm font-black text-slate-800">
-                🎯 Mission
+                🎯 Scenario
               </div>
               <p className="text-base font-bold leading-relaxed text-slate-900 sm:text-lg">
                 {postData.scenario}

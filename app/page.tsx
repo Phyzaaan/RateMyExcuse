@@ -35,9 +35,8 @@ export default function Home() {
   const [excuse, setExcuse] = useState("");
   const [submittedExcuse, setSubmittedExcuse] = useState("");
   const [scenario, setScenario] = useState(
-    "Creating a cool mission for you...",
+    "Creating a cool scenario for you...",
   );
-  const [interactionId, setInteractionId] = useState("");
   const [verdict, setVerdict] = useState<Verdict | null>(null);
   const [loading, setLoading] = useState(false);
   const [startError, setStartError] = useState<string | null>(null);
@@ -47,18 +46,19 @@ export default function Home() {
   const [username, setUsername] = useState("Unknown");
   const [avatar, setAvatar] = useState("/img/user.jpg");
   const [logedIn, setLogedIn] = useState(false);
+  const [isPremium, setIsPremium] = useState(false);
   const [showAdPopup, setShowAdPopup] = useState(false);
   const [toast, setToast] = useState<Toast | null>(null);
   const [isSharing, setIsSharing] = useState(false);
   const [isPublished, setIsPublished] = useState(false);
 
   useEffect(() => {
-    getStoredUserData(setGameCount, setUsername, setAvatar);
+    getStoredUserData(setGameCount, setUsername, setAvatar, setIsPremium);
   }, []);
 
   useEffect(() => {
-    setStoredUserData(gameCount, username, avatar);
-  }, [gameCount, username, avatar]);
+    setStoredUserData(gameCount, username, avatar, isPremium);
+  }, [gameCount, username, avatar, isPremium]);
 
   useEffect(() => {
     if (submittedExcuse || verdict) return;
@@ -82,7 +82,6 @@ export default function Home() {
       if (!valid) return;
 
       if (data.scenario) setScenario(data.scenario);
-      if (data.interactionId) setInteractionId(data.interactionId);
     })();
     return () => {
       valid = false;
@@ -114,6 +113,7 @@ export default function Home() {
       if (data.username) setUsername(data.username);
       if (data.avatar) setAvatar(data.avatar);
       if (data.logedIn) setLogedIn(data.logedIn);
+      if (data.is_premium) setIsPremium(data.is_premium);
       if (data.user_id) setUserId(data.user_id);
     })();
 
@@ -123,11 +123,13 @@ export default function Home() {
   }, [gameCount]);
 
   function handleReset() {
-    if (gameCount < 1) {
+    if (gameCount < 1 && !isPremium) {
       setShowAdPopup(true);
       return;
     }
+    
     setExcuse("");
+    setScenario("Creating a cool scenario for you...");
     setSubmittedExcuse("");
     setVerdict(null);
     setLoading(false);
@@ -135,18 +137,20 @@ export default function Home() {
 
   async function handleSubmit() {
     const text = excuse.trim();
-    if (!text) return;
+    if (!text || startError) return;
 
-    if (gameCount < 1) {
+    if (gameCount < 1 && !isPremium) {
       setShowAdPopup(true);
       return;
     }
 
     setLoading(true);
-    setStartError(null);
 
-    if (!interactionId) {
-      setStartError("Unable to submit excuse. Please try again.");
+    if (!scenario) {
+      setToast({
+        message: "Unable to submit excuse. Please try again.",
+        success: false,
+      });
       setLoading(false);
       return;
     }
@@ -157,7 +161,7 @@ export default function Home() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ interactionId, excuse: text }),
+        body: JSON.stringify({ scenario, excuse: text }),
       });
 
       const verdictData = await res.json();
@@ -171,7 +175,10 @@ export default function Home() {
       setGameCount((prevCount) => Math.max(prevCount - 1, 0));
     } catch (error) {
       console.error(error);
-      setStartError("Unable to get a verdict. Please try again.");
+      setToast({
+        message: "Unable to get a verdict. Please try again.",
+        success: false,
+      });
     } finally {
       setLoading(false);
     }
@@ -293,7 +300,7 @@ export default function Home() {
         isPublished={isPublished}
       />
 
-      <ActionPanel freeGames={gameCount} />
+      {!isPremium && <ActionPanel freeGames={gameCount} />}
       <CommunityFeed setToast={setToast} />
       <FooterNote />
 

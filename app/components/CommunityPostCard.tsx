@@ -74,7 +74,7 @@ export default function PostCard({
         {/* Scenario */}
         <div>
           <span className="text-xs font-extrabold text-primary">
-            🎯 Mission
+            🎯 Scenario
           </span>
 
           <h4 className="min-h-14 text-sm font-bold leading-snug text-primary line-clamp-3 sm:text-base">

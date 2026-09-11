@@ -16,7 +16,7 @@ export async function POST() {
 
     const { data: user, error } = await supabaseAdmin
       .from("users")
-      .select("user_id, games_remaining, username, avatar")
+      .select("user_id, is_premium, games_remaining, username, avatar")
       .eq("user_id", userId)
       .single();
 
@@ -33,6 +33,7 @@ export async function POST() {
       username: user.username,
       avatar: user.avatar,
       games_remaining: user.games_remaining,
+      is_premium: user.is_premium,
       logedIn,
     });
   } catch (err) {

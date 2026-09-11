@@ -17,8 +17,8 @@ export default function HeroSection({
   return (
     <section className="relative max-w-5xl w-full shrink-0 mx-auto overflow-hidden rounded-3xl p-4 sm:p-6">
       <div className="relative z-10 flex flex-col">
-        <div className="flex items-center justify-start gap-2">
-          <Link href={user_id && (logedIn ? `/u/${user_id}` : "/login")}>
+        <div className="flex items-center justify-between gap-2">
+          <Link href={user_id && `/u/${user_id}`}>
             <div className="flex items-center gap-1 p-1 pr-2 rounded-3xl shadow-sm backdrop-blur-2xl bg-primary-bg/45 ring-1 ring-primary-color/30 hover:bg-slate-50 transition">
               <div className="relative h-12 w-12 overflow-hidden rounded-full border-2 border-white shadow-sm">
                 <Image
@@ -32,6 +32,13 @@ export default function HeroSection({
               <p className="text-lg font-bold text-secondary">{username}</p>
             </div>
           </Link>
+          {!logedIn ? (
+            <Link href={"/login"} className="hover:underline text-indigo-600">
+              Login
+            </Link>
+          ) : (
+            <div></div>
+          )}
         </div>
 
         <div className="relative flex flex-col items-center justify-between">
